@@ -1,6 +1,6 @@
 import { getAllActiveJobsForSitemap } from '@/lib/jobs/queries'
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.in'
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.com'
 
 export default async function sitemap() {
   const now = new Date().toISOString()
@@ -13,7 +13,14 @@ export default async function sitemap() {
     { url: `${SITE}/jobs/internship`,           lastModified: now, priority: 0.9,  changeFrequency: 'hourly'  },
     { url: `${SITE}/jobs/ai`,                   lastModified: now, priority: 0.85, changeFrequency: 'hourly'  },
     { url: `${SITE}/ai-tools`,                  lastModified: now, priority: 0.7,  changeFrequency: 'weekly'  },
-    { url: `${SITE}/ai-tools/resume-builder`,   lastModified: now, priority: 0.65, changeFrequency: 'weekly'  },
+    { url: `${SITE}/ai-tools/resume-builder`,            lastModified: now, priority: 0.8,  changeFrequency: 'weekly'  },
+    { url: `${SITE}/ai-tools/resume-builder/templates`,   lastModified: now, priority: 0.8,  changeFrequency: 'weekly'  },
+    { url: `${SITE}/ai-tools/resume-builder/templates/classic`,       lastModified: now, priority: 0.75, changeFrequency: 'monthly' },
+    { url: `${SITE}/ai-tools/resume-builder/templates/modern`,        lastModified: now, priority: 0.75, changeFrequency: 'monthly' },
+    { url: `${SITE}/ai-tools/resume-builder/templates/minimal`,       lastModified: now, priority: 0.75, changeFrequency: 'monthly' },
+    { url: `${SITE}/ai-tools/resume-builder/templates/creative`,      lastModified: now, priority: 0.75, changeFrequency: 'monthly' },
+    { url: `${SITE}/ai-tools/resume-builder/templates/professional`,  lastModified: now, priority: 0.75, changeFrequency: 'monthly' },
+    { url: `${SITE}/ai-tools/resume-builder/templates/tech`,          lastModified: now, priority: 0.75, changeFrequency: 'monthly' },
     { url: `${SITE}/ai-tools/smart-job-search`, lastModified: now, priority: 0.65, changeFrequency: 'weekly'  },
     { url: `${SITE}/ai-tools/resume-rank-checker`, lastModified: now, priority: 0.65, changeFrequency: 'weekly' },
     { url: `${SITE}/about`,                     lastModified: now, priority: 0.5,  changeFrequency: 'monthly' },
