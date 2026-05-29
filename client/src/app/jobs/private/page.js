@@ -45,9 +45,9 @@ export default async function PrivateJobsPage({ searchParams }) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.in/' },
-      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.in/jobs' },
-      { '@type': 'ListItem', position: 3, name: 'Private Jobs', item: 'https://mytechz.in/jobs/private' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.com/jobs' },
+      { '@type': 'ListItem', position: 3, name: 'Private Jobs', item: 'https://mytechz.com/jobs/private' },
     ],
   }
 

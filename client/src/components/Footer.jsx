@@ -210,7 +210,7 @@ export default function Footer() {
                 <svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75" />
                 </svg>
-                <span className="text-xs sm:text-sm text-gray-400 break-all">support@mytechz.in</span>
+                <span className="text-xs sm:text-sm text-gray-400 break-all">support@mytechz.com</span>
               </li>
               <li className="flex items-start gap-2.5 sm:gap-3">
                 <svg className="w-4 h-4 text-blue-400 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
@@ -259,7 +259,7 @@ export default function Footer() {
         <div className="mt-8 sm:mt-10 pt-6 sm:pt-8 border-t border-gray-800/80">
           <div className="flex flex-col items-center gap-3 sm:gap-4 sm:flex-row sm:justify-between">
             <p className="text-xs sm:text-sm text-gray-500 text-center sm:text-left">
-              &copy; {new Date().getFullYear()} MyTechZ.in — All rights reserved.
+              &copy; {new Date().getFullYear()} MyTechZ.com — All rights reserved.
             </p>
             <div className="flex flex-wrap justify-center gap-4 sm:gap-6">
               <Link href="#" className="text-xs sm:text-sm text-gray-500 hover:text-gray-300 transition-colors">

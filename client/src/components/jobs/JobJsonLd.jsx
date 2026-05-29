@@ -1,6 +1,6 @@
 import { formatLocation } from '@/lib/jobs/format'
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.in'
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.com'
 
 const EMPLOYMENT_TYPE = {
   full_time:  'FULL_TIME',

@@ -59,9 +59,9 @@ export default async function AiFeaturedPage({ searchParams }) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.in/' },
-      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.in/jobs' },
-      { '@type': 'ListItem', position: 3, name: 'AI Featured', item: 'https://mytechz.in/jobs/ai' },
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.com/' },
+      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.com/jobs' },
+      { '@type': 'ListItem', position: 3, name: 'AI Featured', item: 'https://mytechz.com/jobs/ai' },
     ],
   }
 

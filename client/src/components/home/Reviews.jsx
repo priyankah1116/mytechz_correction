@@ -11,7 +11,7 @@ const REVIEWS = [
   { name: 'Ananya Das',   role: 'Marketing Lead, Northwind Bank',       rating: 5, quote: 'Recruiters are verified. That alone changed my application volume from 50 to 8 — and quality went up.' },
 ]
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.in'
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.com'
 
 function Stars({ n }) {
   return (

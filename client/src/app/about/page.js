@@ -94,8 +94,8 @@ const orgJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   name: 'MyTechZ',
-  url: 'https://mytechz.in',
-  logo: 'https://mytechz.in/Mytechz_logo.png',
+  url: 'https://mytechz.com',
+  logo: 'https://mytechz.com/Mytechz_logo.png',
   description:
     'India\'s AI-powered career platform connecting tech talent with verified private and government job opportunities, expert mentors, and intelligent tools.',
   foundingDate: '2023',
@@ -103,7 +103,7 @@ const orgJsonLd = {
   contactPoint: {
     '@type': 'ContactPoint',
     contactType: 'customer support',
-    url: 'https://mytechz.in/contact',
+    url: 'https://mytechz.com/contact',
   },
 }
 

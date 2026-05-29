@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 })
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.in'
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.com'
 
 export const metadata = {
   metadataBase: new URL(SITE),
@@ -56,8 +56,13 @@ export const metadata = {
   },
   manifest: '/manifest.json',
   icons: {
-    icon: '/favicon.ico',
-    apple: '/Mytechz_logo.png',
+    icon: [
+      { url: '/icons/icon-32x32.png', sizes: '32x32', type: 'image/png' },
+      { url: '/icons/icon-192x192.png', sizes: '192x192', type: 'image/png' },
+    ],
+    apple: [
+      { url: '/icons/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
+    ],
   },
 }
 

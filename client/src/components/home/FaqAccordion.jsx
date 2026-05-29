@@ -17,7 +17,7 @@ const FAQS = [
     a: 'No. Your profile becomes visible to a recruiter only after you apply or explicitly opt in via "Open to opportunities" in settings.' },
 ]
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.in'
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.com'
 
 export default function FaqAccordion() {
   const [open, setOpen] = useState(0)

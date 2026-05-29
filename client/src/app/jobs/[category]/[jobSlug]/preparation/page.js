@@ -4,7 +4,7 @@ import { getJobBySlug } from '@/lib/jobs/queries'
 import { createClient } from '@/lib/supabase-server'
 import JobRoadmapView, { FALLBACK_ROADMAP } from '@/components/jobs/JobRoadmapView'
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.in'
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.com'
 const VALID = ['private', 'government']
 
 export const revalidate = 600

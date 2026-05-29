@@ -9,7 +9,7 @@ import JobJsonLd from '@/components/jobs/JobJsonLd'
 import JobAssistantPanel from '@/components/jobs/JobAssistantPanel'
 import JobCard from '@/components/jobs/JobCard'
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.in'
+const SITE = process.env.NEXT_PUBLIC_SITE_URL || 'https://mytechz.com'
 
 export const revalidate = 300
 
