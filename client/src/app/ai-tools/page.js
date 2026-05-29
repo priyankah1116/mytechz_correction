@@ -1,8 +1,16 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'AI Tools - MyTechZ',
-  description: 'Supercharge your job search with AI-powered tools — resume builder, smart job search, and resume rank checker.',
+  title: 'Free AI Career Tools — Resume Builder, Job Search & Rank Checker',
+  description:
+    'Build ATS-friendly resumes, find AI-matched jobs and check your resume score — all free. Powered by MyTechZ AI.',
+  alternates: { canonical: '/ai-tools' },
+  openGraph: {
+    title: 'Free AI Career Tools — Resume Builder, Job Search & Rank Checker | MyTechZ',
+    description: 'Build ATS-friendly resumes, find AI-matched jobs and check your resume score — all free.',
+    url: '/ai-tools',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 const tools = [

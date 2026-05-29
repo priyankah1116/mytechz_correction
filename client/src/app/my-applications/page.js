@@ -5,6 +5,7 @@ import { createClient } from '@/lib/supabase-server'
 export const metadata = {
   title: 'My Applications - MyTechZ',
   description: 'Track the status of every job you have applied to.',
+  robots: { index: false, follow: false },
 }
 
 const STATUS_BADGE = {

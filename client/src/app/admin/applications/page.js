@@ -4,6 +4,7 @@ import { getAllApplicationsForAdmin } from '@/lib/admin/queries'
 export const metadata = {
   title: 'Applications | Admin',
   description: 'Monitor every candidate application across the platform',
+  robots: { index: false, follow: false },
 }
 
 export const dynamic = 'force-dynamic'

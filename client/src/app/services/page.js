@@ -1,9 +1,16 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Services - MyTechZ',
+  title: 'Our Services — Job Listings, AI Resume Tools & Career Guidance',
   description:
-    'Explore every MyTechZ service — verified job listings, AI resume tools, smart matching, mentorship, and career guidance, all in one place.',
+    'Verified job listings, AI resume builder, smart job search, government job alerts and expert mentorship — everything you need to land your dream tech role.',
+  alternates: { canonical: '/services' },
+  openGraph: {
+    title: 'Our Services — Job Listings, AI Resume Tools & Career Guidance | MyTechZ',
+    description: 'Verified job listings, AI resume builder, smart job search, government job alerts and expert mentorship.',
+    url: '/services',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 const services = [

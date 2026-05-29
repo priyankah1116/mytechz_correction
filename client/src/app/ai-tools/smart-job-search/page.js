@@ -1,6 +1,14 @@
 export const metadata = {
-  title: 'Smart Job Search - MyTechZ AI Tools',
-  description: 'AI-powered job matching based on your skills, experience, and career preferences.',
+  title: 'Smart Job Search — AI-Powered Job Matching',
+  description:
+    'Let AI read your profile and match you with roles where you have a strong shot — not just keyword hits. Ranked by fit score.',
+  alternates: { canonical: '/ai-tools/smart-job-search' },
+  openGraph: {
+    title: 'Smart Job Search — AI-Powered Job Matching | MyTechZ',
+    description: 'AI reads your profile and matches you with roles ranked by fit score.',
+    url: '/ai-tools/smart-job-search',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export default function SmartJobSearchPage() {

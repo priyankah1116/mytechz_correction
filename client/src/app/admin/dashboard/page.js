@@ -6,6 +6,7 @@ import { getAdminPlatformKPIs } from '@/lib/admin/queries'
 export const metadata = {
   title: 'Admin Overview - MyTechZ',
   description: 'Administer MyTechZ users, recruiters, and platform settings.',
+  robots: { index: false, follow: false },
 }
 
 async function countRows(supabase, table, column, value) {

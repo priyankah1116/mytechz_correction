@@ -7,6 +7,7 @@ import JobsDashboardWidget from '@/components/jobs/JobsDashboardWidget'
 export const metadata = {
   title: 'Dashboard - MyTechZ',
   description: 'Your personalised MyTechZ dashboard.',
+  robots: { index: false, follow: false },
 }
 
 export default async function CandidateDashboardPage() {

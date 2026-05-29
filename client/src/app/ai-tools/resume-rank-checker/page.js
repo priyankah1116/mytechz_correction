@@ -1,6 +1,14 @@
 export const metadata = {
-  title: 'Resume Rank Checker - MyTechZ AI Tools',
-  description: 'Get an AI-powered score for your resume and see how well it matches job descriptions.',
+  title: 'Resume Rank Checker — Check Your Resume Score',
+  description:
+    'Paste a job description and your resume — get an instant match score, gap analysis, and specific suggestions to improve your chances.',
+  alternates: { canonical: '/ai-tools/resume-rank-checker' },
+  openGraph: {
+    title: 'Resume Rank Checker — Check Your Resume Score | MyTechZ',
+    description: 'Get an instant match score, gap analysis, and suggestions to improve your resume.',
+    url: '/ai-tools/resume-rank-checker',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export default function ResumeRankCheckerPage() {

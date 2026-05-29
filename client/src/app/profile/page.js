@@ -3,6 +3,7 @@ import ComingSoon from '@/components/ComingSoon'
 export const metadata = {
   title: 'Profile - MyTechZ',
   description: 'Manage your MyTechZ profile and preferences.',
+  robots: { index: false, follow: false },
 }
 
 export default function ProfilePage() {

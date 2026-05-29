@@ -3,9 +3,15 @@ import JobsListingPage, { JobsLoadingGrid } from '@/components/jobs/JobsListingP
 import { getJobs } from '@/lib/jobs/queries'
 
 export const metadata = {
-  title: 'Internships — Paid roles for students & freshers | MyTechz',
+  title: 'Paid Internships for Students & Freshers',
   description: 'Explore paid internships across tech, design, marketing and more. Filter by stipend, duration and college eligibility.',
   alternates: { canonical: '/jobs/internship' },
+  openGraph: {
+    title: 'Paid Internships for Students & Freshers | MyTechZ',
+    description: 'Explore paid internships across tech, design, marketing and more. Filter by stipend, duration and college eligibility.',
+    url: '/jobs/internship',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export const dynamic = 'force-dynamic'
@@ -35,9 +41,22 @@ export default async function InternshipsPage({ searchParams }) {
   const filters = parseFilters(sp)
   const { jobs, error } = await getJobs({ ...filters, job_type: 'internship' })
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.in/' },
+      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.in/jobs' },
+      { '@type': 'ListItem', position: 3, name: 'Internships', item: 'https://mytechz.in/jobs/internship' },
+    ],
+  }
+
   return (
-    <Suspense fallback={<JobsLoadingGrid />}>
-      <JobsListingPage pageConfig={PAGE_CONFIG} initialJobs={jobs} initialFilters={filters} initialError={error} />
-    </Suspense>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <Suspense fallback={<JobsLoadingGrid />}>
+        <JobsListingPage pageConfig={PAGE_CONFIG} initialJobs={jobs} initialFilters={filters} initialError={error} />
+      </Suspense>
+    </>
   )
 }

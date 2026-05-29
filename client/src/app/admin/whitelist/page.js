@@ -4,6 +4,7 @@ import RemoveAdminEmailButton from '@/components/admin/RemoveAdminEmailButton'
 
 export const metadata = {
   title: 'Admin Emails - MyTechZ Admin',
+  robots: { index: false, follow: false },
 }
 
 export default async function AdminWhitelistPage() {

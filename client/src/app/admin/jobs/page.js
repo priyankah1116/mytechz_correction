@@ -4,6 +4,7 @@ import AdminJobsTable from '@/components/admin/AdminJobsTable'
 export const metadata = {
   title: 'All Jobs | Admin',
   description: 'Review, approve, and manage every job on the platform.',
+  robots: { index: false, follow: false },
 }
 
 export const dynamic = 'force-dynamic'

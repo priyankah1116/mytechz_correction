@@ -4,6 +4,7 @@ import RecruiterOnboardingOverlay from '@/components/recruiter/RecruiterOnboardi
 export const metadata = {
   title: 'Complete Your Company Profile - MyTechZ',
   description: 'Tell us about your company to start posting jobs on MyTechZ.',
+  robots: { index: false, follow: false },
 }
 
 export default async function RecruiterOnboardingPage() {

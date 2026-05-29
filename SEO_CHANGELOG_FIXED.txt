@@ -1,7 +1,0 @@
-Applied automated SEO fixes on project:
-- Added client/public/index.html with meta tags
-- Generated 1200x630 og-image.png placeholder
-- Added robots.txt and sitemap.xml
-- Added RouteSEO.jsx (react-helmet) component
-- Updated client/package.json to include react-helmet dependency
-- Added client/netlify.toml

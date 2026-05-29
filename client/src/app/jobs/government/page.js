@@ -3,9 +3,15 @@ import JobsListingPage, { JobsLoadingGrid } from '@/components/jobs/JobsListingP
 import { getJobs } from '@/lib/jobs/queries'
 
 export const metadata = {
-  title: 'Government Jobs — UPSC, SSC, PSU, Defence | MyTechz',
+  title: 'Government Jobs — UPSC, SSC, PSU & Defence Vacancies',
   description: 'Latest central, state, PSU and defence vacancies with notification numbers, exam dates, age limits and official PDFs.',
   alternates: { canonical: '/jobs/government' },
+  openGraph: {
+    title: 'Government Jobs — UPSC, SSC, PSU & Defence Vacancies | MyTechZ',
+    description: 'Latest central, state, PSU and defence vacancies with notification numbers, exam dates, age limits and official PDFs.',
+    url: '/jobs/government',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export const dynamic = 'force-dynamic'
@@ -35,9 +41,22 @@ export default async function GovernmentJobsPage({ searchParams }) {
   const filters = parseFilters(sp)
   const { jobs, error } = await getJobs({ ...filters, category: 'government' })
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.in/' },
+      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.in/jobs' },
+      { '@type': 'ListItem', position: 3, name: 'Government Jobs', item: 'https://mytechz.in/jobs/government' },
+    ],
+  }
+
   return (
-    <Suspense fallback={<JobsLoadingGrid />}>
-      <JobsListingPage pageConfig={PAGE_CONFIG} initialJobs={jobs} initialFilters={filters} initialError={error} />
-    </Suspense>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <Suspense fallback={<JobsLoadingGrid />}>
+        <JobsListingPage pageConfig={PAGE_CONFIG} initialJobs={jobs} initialFilters={filters} initialError={error} />
+      </Suspense>
+    </>
   )
 }

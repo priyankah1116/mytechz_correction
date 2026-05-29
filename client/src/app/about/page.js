@@ -1,9 +1,16 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'About - MyTechZ',
+  title: 'About MyTechZ — AI Career Platform Connecting India\'s Tech Talent',
   description:
-    'MyTechZ is India\u2019s AI-powered career platform connecting tech talent with private and government opportunities, expert mentors, and intelligent tools.',
+    'MyTechZ connects tech professionals with verified employers through AI-powered matching, expert mentorship and career tools. 12,000+ candidates placed.',
+  alternates: { canonical: '/about' },
+  openGraph: {
+    title: 'About MyTechZ — AI Career Platform Connecting India\'s Tech Talent',
+    description: 'MyTechZ connects tech professionals with verified employers through AI-powered matching, expert mentorship and career tools.',
+    url: '/about',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 const stats = [
@@ -83,9 +90,27 @@ const timeline = [
   },
 ]
 
+const orgJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'MyTechZ',
+  url: 'https://mytechz.in',
+  logo: 'https://mytechz.in/Mytechz_logo.png',
+  description:
+    'India\'s AI-powered career platform connecting tech talent with verified private and government job opportunities, expert mentors, and intelligent tools.',
+  foundingDate: '2023',
+  sameAs: ['https://www.linkedin.com/company/mytechz'],
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    url: 'https://mytechz.in/contact',
+  },
+}
+
 export default function AboutPage() {
   return (
     <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
       <div className="pointer-events-none absolute inset-0 hero-grid" />
       <div className="pointer-events-none absolute inset-0">
         <div className="hero-blob absolute -top-24 -left-20 w-80 h-80 bg-blue-300/40 rounded-full blur-3xl" />

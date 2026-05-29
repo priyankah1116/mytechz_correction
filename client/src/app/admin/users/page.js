@@ -2,6 +2,7 @@ import { createClient } from '@/lib/supabase-server'
 
 export const metadata = {
   title: 'Users - MyTechZ Admin',
+  robots: { index: false, follow: false },
 }
 
 const ROLE_BADGE = {

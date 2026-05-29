@@ -7,6 +7,7 @@ import LoginShowcase from '@/components/auth/LoginShowcase'
 export const metadata = {
   title: 'Login - MyTechZ',
   description: 'Sign in to your MyTechZ account',
+  robots: { index: false, follow: false },
 }
 
 export default function LoginPage() {

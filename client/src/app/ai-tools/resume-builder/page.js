@@ -1,6 +1,14 @@
 export const metadata = {
-  title: 'Resume Builder - MyTechZ AI Tools',
-  description: 'Create professional, ATS-friendly resumes powered by AI.',
+  title: 'AI Resume Builder — Create ATS-Friendly Resumes Free',
+  description:
+    'Generate a polished, ATS-optimised resume in minutes. Pick a template, let AI refine your bullet points, and export a recruiter-ready PDF.',
+  alternates: { canonical: '/ai-tools/resume-builder' },
+  openGraph: {
+    title: 'AI Resume Builder — Create ATS-Friendly Resumes Free | MyTechZ',
+    description: 'Generate a polished, ATS-optimised resume in minutes with AI.',
+    url: '/ai-tools/resume-builder',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export default function ResumeBuilderPage() {

@@ -1,9 +1,15 @@
 import Link from 'next/link'
 
 export const metadata = {
-  title: 'Browse Jobs — Private, Government, Internships & AI Featured | MyTechz',
+  title: 'Browse Jobs — Private, Government, Internships & AI Featured',
   description: 'Pick a path: private companies, government & PSU, paid internships, or AI-personalized matches. Verified jobs, all in one place.',
   alternates: { canonical: '/jobs' },
+  openGraph: {
+    title: 'Browse Jobs — Private, Government, Internships & AI Featured | MyTechZ',
+    description: 'Pick a path: private companies, government & PSU, paid internships, or AI-personalized matches.',
+    url: '/jobs',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 const TILES = [

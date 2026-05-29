@@ -7,6 +7,7 @@ import { getRecruiterApplicantStats } from '@/lib/applicants/queries'
 export const metadata = {
   title: 'Recruiter Dashboard - MyTechZ',
   description: 'Post jobs, review applicants, and manage your hiring pipeline.',
+  robots: { index: false, follow: false },
 }
 
 const WORK_MODE_LABEL = {

@@ -1,2 +1,0 @@
-
-AUTO-FIX: Applied runtime-safety fixes, API job endpoint, slugify util, updated JobCard and JobDetails for production.

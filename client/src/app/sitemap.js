@@ -6,14 +6,19 @@ export default async function sitemap() {
   const now = new Date().toISOString()
 
   const staticPages = [
-    { url: `${SITE}/`,                  lastModified: now, priority: 1.0,  changeFrequency: 'daily'   },
-    { url: `${SITE}/jobs`,              lastModified: now, priority: 0.95, changeFrequency: 'hourly'  },
-    { url: `${SITE}/jobs?tab=private`,  lastModified: now, priority: 0.9,  changeFrequency: 'hourly'  },
-    { url: `${SITE}/jobs?tab=government`, lastModified: now, priority: 0.9,  changeFrequency: 'hourly'  },
-    { url: `${SITE}/jobs?tab=ai`,       lastModified: now, priority: 0.85, changeFrequency: 'hourly'  },
-    { url: `${SITE}/about`,             lastModified: now, priority: 0.5,  changeFrequency: 'monthly' },
-    { url: `${SITE}/contact`,           lastModified: now, priority: 0.5,  changeFrequency: 'monthly' },
-    { url: `${SITE}/services`,          lastModified: now, priority: 0.6,  changeFrequency: 'monthly' },
+    { url: `${SITE}/`,                          lastModified: now, priority: 1.0,  changeFrequency: 'daily'   },
+    { url: `${SITE}/jobs`,                      lastModified: now, priority: 0.95, changeFrequency: 'hourly'  },
+    { url: `${SITE}/jobs/private`,              lastModified: now, priority: 0.9,  changeFrequency: 'hourly'  },
+    { url: `${SITE}/jobs/government`,           lastModified: now, priority: 0.9,  changeFrequency: 'hourly'  },
+    { url: `${SITE}/jobs/internship`,           lastModified: now, priority: 0.9,  changeFrequency: 'hourly'  },
+    { url: `${SITE}/jobs/ai`,                   lastModified: now, priority: 0.85, changeFrequency: 'hourly'  },
+    { url: `${SITE}/ai-tools`,                  lastModified: now, priority: 0.7,  changeFrequency: 'weekly'  },
+    { url: `${SITE}/ai-tools/resume-builder`,   lastModified: now, priority: 0.65, changeFrequency: 'weekly'  },
+    { url: `${SITE}/ai-tools/smart-job-search`, lastModified: now, priority: 0.65, changeFrequency: 'weekly'  },
+    { url: `${SITE}/ai-tools/resume-rank-checker`, lastModified: now, priority: 0.65, changeFrequency: 'weekly' },
+    { url: `${SITE}/about`,                     lastModified: now, priority: 0.5,  changeFrequency: 'monthly' },
+    { url: `${SITE}/contact`,                   lastModified: now, priority: 0.5,  changeFrequency: 'monthly' },
+    { url: `${SITE}/services`,                  lastModified: now, priority: 0.6,  changeFrequency: 'monthly' },
   ]
 
   const jobs = await getAllActiveJobsForSitemap()

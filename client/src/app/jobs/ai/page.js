@@ -4,9 +4,15 @@ import { getJobs } from '@/lib/jobs/queries'
 import { createClient } from '@/lib/supabase-server'
 
 export const metadata = {
-  title: 'AI Featured Jobs — Personalized matches | MyTechz',
-  description: 'AI-ranked job matches based on your resume, skills and ambitions. Skip the noise.',
+  title: 'AI-Matched Jobs — Personalised Career Opportunities',
+  description: 'AI-ranked job matches based on your resume, skills and ambitions. Skip the noise and find roles where you fit best.',
   alternates: { canonical: '/jobs/ai' },
+  openGraph: {
+    title: 'AI-Matched Jobs — Personalised Career Opportunities | MyTechZ',
+    description: 'AI-ranked job matches based on your resume, skills and ambitions.',
+    url: '/jobs/ai',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export const dynamic = 'force-dynamic'
@@ -49,15 +55,28 @@ export default async function AiFeaturedPage({ searchParams }) {
 
   const { jobs, error } = await getJobs(queryFilters)
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.in/' },
+      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.in/jobs' },
+      { '@type': 'ListItem', position: 3, name: 'AI Featured', item: 'https://mytechz.in/jobs/ai' },
+    ],
+  }
+
   return (
-    <Suspense fallback={<AiLoadingGrid />}>
-      <AiFeaturedJobsPage
-        initialJobs={jobs}
-        initialFilters={filters}
-        initialError={error}
-        isAuthed={isAuthed}
-        hasResume={hasResume}
-      />
-    </Suspense>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <Suspense fallback={<AiLoadingGrid />}>
+        <AiFeaturedJobsPage
+          initialJobs={jobs}
+          initialFilters={filters}
+          initialError={error}
+          isAuthed={isAuthed}
+          hasResume={hasResume}
+        />
+      </Suspense>
+    </>
   )
 }

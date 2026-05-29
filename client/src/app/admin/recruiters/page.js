@@ -4,6 +4,7 @@ import RecruiterRejectButton from '@/components/admin/RecruiterRejectButton'
 
 export const metadata = {
   title: 'Recruiters - MyTechZ Admin',
+  robots: { index: false, follow: false },
 }
 
 const STATUS_BADGE = {

@@ -3,9 +3,15 @@ import JobsListingPage, { JobsLoadingGrid } from '@/components/jobs/JobsListingP
 import { getJobs } from '@/lib/jobs/queries'
 
 export const metadata = {
-  title: 'Private Jobs — Tech, BFSI, Startups & MNCs | MyTechz',
+  title: 'Private Tech Jobs — IT, Startups, BFSI & MNC Openings',
   description: 'Curated private-sector job openings across IT services, product companies, BFSI and high-growth startups. Verified roles only.',
   alternates: { canonical: '/jobs/private' },
+  openGraph: {
+    title: 'Private Tech Jobs — IT, Startups, BFSI & MNC Openings | MyTechZ',
+    description: 'Curated private-sector job openings across IT services, product companies, BFSI and high-growth startups.',
+    url: '/jobs/private',
+  },
+  twitter: { card: 'summary_large_image' },
 }
 
 export const dynamic = 'force-dynamic'
@@ -35,9 +41,22 @@ export default async function PrivateJobsPage({ searchParams }) {
   const filters = parseFilters(sp)
   const { jobs, error } = await getJobs({ ...filters, category: 'private', exclude_internships: true })
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://mytechz.in/' },
+      { '@type': 'ListItem', position: 2, name: 'Jobs', item: 'https://mytechz.in/jobs' },
+      { '@type': 'ListItem', position: 3, name: 'Private Jobs', item: 'https://mytechz.in/jobs/private' },
+    ],
+  }
+
   return (
-    <Suspense fallback={<JobsLoadingGrid />}>
-      <JobsListingPage pageConfig={PAGE_CONFIG} initialJobs={jobs} initialFilters={filters} initialError={error} />
-    </Suspense>
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+      <Suspense fallback={<JobsLoadingGrid />}>
+        <JobsListingPage pageConfig={PAGE_CONFIG} initialJobs={jobs} initialFilters={filters} initialError={error} />
+      </Suspense>
+    </>
   )
 }
