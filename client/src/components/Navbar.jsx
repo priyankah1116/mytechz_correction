@@ -422,7 +422,7 @@ export default function Navbar() {
             {/* Logo */}
             <Link href="/" className="flex items-center gap-2 shrink-0">
               <Image
-                src="/logo.svg"
+                src="/Mytechz_logo.png"
                 alt="MyTechz Logo"
                 width={140}
                 height={40}
