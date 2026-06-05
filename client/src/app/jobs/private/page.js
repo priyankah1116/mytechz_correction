@@ -3,13 +3,17 @@ import JobsListingPage, { JobsLoadingGrid } from '@/components/jobs/JobsListingP
 import { getJobs } from '@/lib/jobs/queries'
 
 export const metadata = {
-  title: 'Private Tech Jobs — IT, Startups, BFSI & MNC Openings',
-  description: 'Curated private-sector job openings across IT services, product companies, BFSI and high-growth startups. Verified roles only.',
-  alternates: { canonical: '/jobs/private' },
+  title: 'Private Tech Jobs — IT, Software, Startups, BFSI & MNC Openings in India',
+  description: 'Browse verified private-sector tech job openings across IT services, product companies, BFSI, high-growth startups, and MNCs. Updated daily. Apply now on MyTechZ.',
+  keywords: 'private tech jobs India, IT jobs, software developer jobs, MNC jobs India, startup jobs, BFSI jobs, verified private jobs',
+  alternates: { canonical: 'https://mytechz.com/jobs/private' },
   openGraph: {
-    title: 'Private Tech Jobs — IT, Startups, BFSI & MNC Openings | MyTechZ',
-    description: 'Curated private-sector job openings across IT services, product companies, BFSI and high-growth startups.',
-    url: '/jobs/private',
+    title: 'Private Tech Jobs — IT, Software, Startups, BFSI & MNC Openings | MyTechZ',
+    description: 'Verified private-sector tech jobs in India: IT, software, startups, MNCs, BFSI. Updated daily.',
+    url: 'https://mytechz.com/jobs/private',
+    type: 'website',
+    siteName: 'MyTechZ',
+    images: [{ url: 'https://mytechz.com/og-image.png', width: 1200, height: 630, alt: 'Private Tech Jobs India — MyTechZ' }],
   },
   twitter: { card: 'summary_large_image' },
 }

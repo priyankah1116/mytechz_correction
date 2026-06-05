@@ -1,13 +1,20 @@
 import Link from 'next/link'
 
+const SITE = 'https://mytechz.com'
+
 export const metadata = {
-  title: 'Browse Jobs — Private, Government, Internships & AI Featured',
-  description: 'Pick a path: private companies, government & PSU, paid internships, or AI-personalized matches. Verified jobs, all in one place.',
-  alternates: { canonical: '/jobs' },
+  title: 'Browse Jobs — Private, Government & Internships in India | MyTechZ',
+  description: 'Find verified tech jobs in India: private company jobs, UPSC/SSC government jobs, paid internships for students, and AI-personalized job matches. 50,000+ verified listings updated daily.',
+  keywords:
+    'tech jobs India, private jobs India, government jobs 2024, paid internships India, IT jobs, software developer jobs India, verified job portal India',
+  alternates: { canonical: `${SITE}/jobs` },
   openGraph: {
-    title: 'Browse Jobs — Private, Government, Internships & AI Featured | MyTechZ',
-    description: 'Pick a path: private companies, government & PSU, paid internships, or AI-personalized matches.',
-    url: '/jobs',
+    title: 'Browse Jobs — Private, Government & Internships in India | MyTechZ',
+    description: 'Find 50,000+ verified tech jobs in India: private, government, internships, and AI-matched. Updated daily.',
+    url: `${SITE}/jobs`,
+    type: 'website',
+    siteName: 'MyTechZ',
+    images: [{ url: `${SITE}/og-image.png`, width: 1200, height: 630, alt: 'MyTechZ Job Portal' }],
   },
   twitter: { card: 'summary_large_image' },
 }
@@ -55,46 +62,128 @@ const TILES = [
   },
 ]
 
+function JsonLd() {
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'Jobs', item: `${SITE}/jobs` },
+    ],
+  }
+
+  const jobPortal = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'MyTechZ Job Categories',
+    description: 'Browse tech jobs in India by category: private companies, government jobs, paid internships, and AI-personalized matches.',
+    url: `${SITE}/jobs`,
+    numberOfItems: TILES.length,
+    itemListElement: TILES.map((t, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: t.title,
+      url: `${SITE}${t.href}`,
+      description: t.blurb,
+    })),
+  }
+
+  const faqPage = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'What types of jobs are available on MyTechZ?',
+        acceptedAnswer: { '@type': 'Answer', text: 'MyTechZ lists four categories of verified jobs: (1) Private Jobs from top companies and startups, (2) Government Jobs from central, state, and PSU organizations, (3) Paid Internships for students and freshers, and (4) AI Featured jobs personalized to your profile.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Are the jobs on MyTechZ verified?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes. Every job listing on MyTechZ is vetted by our team. We partner directly with companies and government portals to ensure listings are legitimate, accurate, and up to date.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'How do I apply for government jobs on MyTechZ?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Browse our Government Jobs section where you will find central, state, PSU, and defence vacancies with official notification numbers, exam dates, age limits, and links to download official PDFs.' },
+      },
+      {
+        '@type': 'Question',
+        name: 'Are internships on MyTechZ paid?',
+        acceptedAnswer: { '@type': 'Answer', text: 'Yes, MyTechZ focuses on paid internships. Each listing shows the monthly stipend clearly so you know exactly what you will earn before applying.' },
+      },
+    ],
+  }
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jobPortal) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqPage) }} />
+    </>
+  )
+}
+
 export default function JobsLandingPage() {
   return (
-    <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50 py-16 sm:py-20">
-      <div className="pointer-events-none absolute inset-0 hero-grid" />
-      <div className="pointer-events-none absolute inset-0">
-        <div className="hero-blob absolute -top-24 -left-20 w-80 h-80 bg-blue-300/30 rounded-full blur-3xl" />
-        <div className="hero-blob-delay absolute top-1/3 -right-20 w-96 h-96 bg-amber-300/30 rounded-full blur-3xl" />
-      </div>
-
-      <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
-            Find your <span className="hero-gradient-text">next role</span>
-          </h1>
-          <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
-            Pick the track that fits you. We&apos;ve verified every employer and curated every listing.
-          </p>
+    <>
+      <JsonLd />
+      <section className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50 py-16 sm:py-20">
+        <div className="pointer-events-none absolute inset-0 hero-grid" />
+        <div className="pointer-events-none absolute inset-0">
+          <div className="hero-blob absolute -top-24 -left-20 w-80 h-80 bg-blue-300/30 rounded-full blur-3xl" />
+          <div className="hero-blob-delay absolute top-1/3 -right-20 w-96 h-96 bg-amber-300/30 rounded-full blur-3xl" />
         </div>
 
-        <div className="grid sm:grid-cols-2 gap-5 sm:gap-6">
-          {TILES.map(t => (
-            <Link key={t.id} href={t.href}
-              className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${t.accent} p-7 sm:p-8 border hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
-              <div className="relative z-10">
-                <div className={`w-14 h-14 ${t.iconBg} rounded-xl flex items-center justify-center mb-5 shadow-lg`}>
-                  <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
-                    {t.icon}
-                  </svg>
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          {/* Breadcrumb */}
+          <nav aria-label="Breadcrumb" className="mb-8 text-xs text-slate-500 flex flex-wrap items-center gap-1">
+            <Link href="/" className="hover:text-blue-700">Home</Link>
+            <span aria-hidden="true">›</span>
+            <span className="text-slate-700">Jobs</span>
+          </nav>
+
+          <div className="text-center mb-12">
+            <h1 className="text-4xl sm:text-5xl font-bold text-slate-900 leading-tight">
+              Find your <span className="hero-gradient-text">next role</span>
+            </h1>
+            <p className="mt-3 text-base sm:text-lg text-slate-600 max-w-2xl mx-auto">
+              Pick the track that fits you. We&apos;ve verified every employer and curated every listing — 50,000+ tech jobs across India.
+            </p>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-5 sm:gap-6">
+            {TILES.map(t => (
+              <Link key={t.id} href={t.href}
+                className={`group relative overflow-hidden rounded-2xl bg-gradient-to-br ${t.accent} p-7 sm:p-8 border hover:shadow-xl transition-all duration-300 hover:-translate-y-1`}>
+                <div className="relative z-10">
+                  <div className={`w-14 h-14 ${t.iconBg} rounded-xl flex items-center justify-center mb-5 shadow-lg`}>
+                    <svg className="w-7 h-7 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.6}>
+                      {t.icon}
+                    </svg>
+                  </div>
+                  <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-2">{t.badge}</span>
+                  <h2 className="text-2xl font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{t.title}</h2>
+                  <p className="mt-2 text-sm sm:text-base text-slate-600">{t.blurb}</p>
+                  <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-slate-700 group-hover:text-blue-700 transition-colors">
+                    Browse →
+                  </span>
                 </div>
-                <span className="inline-block text-[10px] font-bold uppercase tracking-wider text-slate-600 mb-2">{t.badge}</span>
-                <h2 className="text-2xl font-bold text-slate-900 group-hover:text-blue-700 transition-colors">{t.title}</h2>
-                <p className="mt-2 text-sm sm:text-base text-slate-600">{t.blurb}</p>
-                <span className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-slate-700 group-hover:text-blue-700 transition-colors">
-                  Browse →
-                </span>
-              </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Resume Builder CTA */}
+          <div className="mt-12 bg-gradient-to-r from-blue-600 to-indigo-700 rounded-2xl p-6 sm:p-8 text-center text-white">
+            <h2 className="text-xl sm:text-2xl font-bold mb-2">Need a resume before you apply?</h2>
+            <p className="text-blue-100 text-sm mb-5">Use India&apos;s best free resume builder — create an ATS-friendly resume in under 10 minutes.</p>
+            <Link href="/ai-tools/resume-builder" className="inline-flex items-center gap-2 bg-white text-blue-700 font-semibold px-6 py-2.5 rounded-xl hover:bg-blue-50 transition-all shadow-md">
+              Build Free Resume
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
             </Link>
-          ))}
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   )
 }

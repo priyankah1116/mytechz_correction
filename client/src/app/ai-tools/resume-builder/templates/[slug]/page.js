@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { TEMPLATES, getTemplate } from '@/lib/resume/templates'
 import TemplatePreviewClient from './TemplatePreviewClient'
 
+const SITE = 'https://mytechz.com'
+
 export function generateStaticParams() {
   return TEMPLATES.map((t) => ({ slug: t.slug }))
 }
@@ -12,13 +14,17 @@ export async function generateMetadata({ params }) {
   const t = getTemplate(slug)
   if (!t) return {}
   return {
-    title: `Free ${t.name} Resume Template — ATS-Friendly | MyTechZ`,
-    description: t.description + ' Download as PDF or DOCX for free. No signup required to preview.',
-    alternates: { canonical: `/ai-tools/resume-builder/templates/${slug}` },
+    title: `Free ${t.name} Resume Template — ATS-Friendly CV Builder | MyTechZ`,
+    description: `Free ${t.name} resume template — ATS-optimised, professionally designed. ${t.description} Download as PDF or DOCX for free. No credit card required.`,
+    keywords: `free ${t.name.toLowerCase()} resume template, ${t.name.toLowerCase()} CV template free, ATS resume template, free resume template India, download resume template`,
+    alternates: { canonical: `${SITE}/ai-tools/resume-builder/templates/${slug}` },
     openGraph: {
-      title: `Free ${t.name} Resume Template | MyTechZ`,
-      description: t.description,
-      url: `/ai-tools/resume-builder/templates/${slug}`,
+      title: `Free ${t.name} Resume Template — ATS-Friendly | MyTechZ`,
+      description: `Free ${t.name} resume template. ATS-optimised. ${t.description} Download PDF or DOCX free.`,
+      url: `${SITE}/ai-tools/resume-builder/templates/${slug}`,
+      type: 'website',
+      siteName: 'MyTechZ',
+      images: [{ url: `${SITE}/og-image.png`, width: 1200, height: 630, alt: `Free ${t.name} Resume Template` }],
     },
     twitter: { card: 'summary_large_image' },
   }
@@ -29,14 +35,28 @@ export default async function TemplateDetailPage({ params }) {
   const template = getTemplate(slug)
   if (!template || template.slug !== slug) notFound()
 
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'AI Tools', item: `${SITE}/ai-tools` },
+      { '@type': 'ListItem', position: 3, name: 'Free Resume Builder', item: `${SITE}/ai-tools/resume-builder` },
+      { '@type': 'ListItem', position: 4, name: 'Templates', item: `${SITE}/ai-tools/resume-builder/templates` },
+      { '@type': 'ListItem', position: 5, name: `${template.name} Template`, item: `${SITE}/ai-tools/resume-builder/templates/${template.slug}` },
+    ],
+  }
+
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'SoftwareApplication',
-    name: `${template.name} Resume Template - MyTechZ`,
+    name: `Free ${template.name} Resume Template — MyTechZ`,
     applicationCategory: 'BusinessApplication',
     operatingSystem: 'Web',
-    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
-    description: template.description,
+    url: `${SITE}/ai-tools/resume-builder/templates/${template.slug}`,
+    offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR', description: 'Free — no credit card required' },
+    description: `Free ${template.name} resume template. ATS-optimised. ${template.description}`,
+    provider: { '@type': 'Organization', name: 'MyTechZ', url: SITE },
   }
 
   const faqJsonLd = {
@@ -63,6 +83,7 @@ export default async function TemplateDetailPage({ params }) {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }} />
 
@@ -74,12 +95,16 @@ export default async function TemplateDetailPage({ params }) {
 
         <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           {/* Breadcrumb */}
-          <nav className="mb-8 text-sm hero-fade-up">
-            <Link href="/ai-tools/resume-builder/templates" className="text-blue-600 hover:text-blue-800">
-              Templates
-            </Link>
-            <span className="mx-2 text-slate-400">/</span>
-            <span className="text-slate-600">{template.name}</span>
+          <nav aria-label="Breadcrumb" className="mb-8 text-xs text-slate-500 flex flex-wrap items-center gap-1 hero-fade-up">
+            <Link href="/" className="hover:text-blue-700">Home</Link>
+            <span aria-hidden="true">›</span>
+            <Link href="/ai-tools" className="hover:text-blue-700">AI Tools</Link>
+            <span aria-hidden="true">›</span>
+            <Link href="/ai-tools/resume-builder" className="hover:text-blue-700">Resume Builder</Link>
+            <span aria-hidden="true">›</span>
+            <Link href="/ai-tools/resume-builder/templates" className="hover:text-blue-700">Templates</Link>
+            <span aria-hidden="true">›</span>
+            <span className="text-slate-700">{template.name}</span>
           </nav>
 
           <div className="grid lg:grid-cols-[1fr_340px] gap-10">

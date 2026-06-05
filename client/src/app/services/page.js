@@ -1,14 +1,21 @@
 import Link from 'next/link'
 
+const SITE = 'https://mytechz.com'
+
 export const metadata = {
-  title: 'Our Services — Job Listings, AI Resume Tools & Career Guidance',
+  title: 'Our Services — Free Resume Builder, Job Listings & AI Career Tools | MyTechZ',
   description:
-    'Verified job listings, AI resume builder, smart job search, government job alerts and expert mentorship — everything you need to land your dream tech role.',
-  alternates: { canonical: '/services' },
+    'MyTechZ services: free resume builder, verified private & government job listings, AI-powered job matching, resume rank checker, and expert mentorship — everything for your tech career in India.',
+  keywords:
+    'MyTechZ services, free resume builder India, tech job listings India, government job notifications, AI career tools, resume ATS checker, job portal India services',
+  alternates: { canonical: `${SITE}/services` },
   openGraph: {
-    title: 'Our Services — Job Listings, AI Resume Tools & Career Guidance | MyTechZ',
-    description: 'Verified job listings, AI resume builder, smart job search, government job alerts and expert mentorship.',
-    url: '/services',
+    title: 'Our Services — Free Resume Builder, Job Listings & AI Career Tools | MyTechZ',
+    description: 'Free resume builder, verified job listings, AI job matching, ATS resume checker, government jobs, and expert mentorship — all in one platform.',
+    url: `${SITE}/services`,
+    type: 'website',
+    siteName: 'MyTechZ',
+    images: [{ url: `${SITE}/og-image.png`, width: 1200, height: 630, alt: 'MyTechZ Services' }],
   },
   twitter: { card: 'summary_large_image' },
 }
@@ -41,11 +48,11 @@ const services = [
     ),
   },
   {
-    title: 'AI Resume Builder',
+    title: 'Free AI Resume Builder',
     description:
-      'Generate a polished, ATS-optimised resume in minutes. Pick a template, let AI refine your bullet points, and export a recruiter-ready PDF.',
+      'India\'s best free resume builder and CV builder. Pick a template, let AI refine your bullet points, and export a recruiter-ready PDF or DOCX — 100% free, no watermarks.',
     href: '/ai-tools/resume-builder',
-    cta: 'Build My Resume',
+    cta: 'Build Free Resume',
     tint: 'purple',
     icon: (
       <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={1.8} viewBox="0 0 24 24">
@@ -69,7 +76,7 @@ const services = [
   {
     title: 'Resume Rank Checker',
     description:
-      'Paste a job description and your resume — get an instant match score, gap analysis, and specific suggestions to improve your chances.',
+      'Paste a job description and your resume — get an instant ATS match score, keyword gap analysis, and specific suggestions to improve your chances.',
     href: '/ai-tools/resume-rank-checker',
     cta: 'Check My Rank',
     tint: 'amber',
@@ -97,7 +104,7 @@ const services = [
 const process = [
   {
     step: '01',
-    title: 'Create your profile',
+    title: 'Create your free profile',
     description:
       'Sign up in seconds with Google or email and tell us about your skills, experience, and what you\u2019re looking for.',
   },
@@ -111,7 +118,7 @@ const process = [
     step: '03',
     title: 'Sharpen your application',
     description:
-      'Use the Resume Builder and Rank Checker to tailor your application to each role before you hit apply.',
+      'Use the free Resume Builder and Rank Checker to tailor your application to each role before you hit apply.',
   },
   {
     step: '04',
@@ -130,9 +137,48 @@ const tintMap = {
   rose: 'bg-rose-50 text-rose-700 group-hover:bg-rose-100',
 }
 
+function JsonLd() {
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'Services', item: `${SITE}/services` },
+    ],
+  }
+
+  const serviceList = {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: 'MyTechZ Services',
+    description: 'Free AI career tools and job platform services for Indian tech professionals.',
+    itemListElement: services.map((s, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: {
+        '@type': 'Service',
+        name: s.title,
+        description: s.description,
+        url: `${SITE}${s.href}`,
+        provider: { '@type': 'Organization', name: 'MyTechZ', url: SITE },
+        areaServed: { '@type': 'Country', name: 'India' },
+        offers: { '@type': 'Offer', price: '0', priceCurrency: 'INR' },
+      },
+    })),
+  }
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceList) }} />
+    </>
+  )
+}
+
 export default function ServicesPage() {
   return (
     <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50">
+      <JsonLd />
       <div className="pointer-events-none absolute inset-0 hero-grid" />
       <div className="pointer-events-none absolute inset-0">
         <div className="hero-blob absolute -top-24 -left-20 w-80 h-80 bg-blue-300/40 rounded-full blur-3xl" />
@@ -141,20 +187,27 @@ export default function ServicesPage() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 sm:pt-40">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="mb-8 text-xs text-slate-500 flex flex-wrap items-center gap-1">
+          <Link href="/" className="hover:text-blue-700">Home</Link>
+          <span aria-hidden="true">›</span>
+          <span className="text-slate-700">Services</span>
+        </nav>
+
         {/* Hero */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="hero-fade-up inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur border border-blue-100 text-xs sm:text-sm font-medium text-blue-700 shadow-sm">
             <svg className="w-3.5 h-3.5 text-blue-600 animate-pulse" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M12 2l2.9 6.9L22 10l-5.5 4.8L18 22l-6-3.6L6 22l1.5-7.2L2 10l7.1-1.1L12 2z" />
             </svg>
-            Everything you need in one platform
+            Everything you need in one platform — free
           </span>
           <h1 className="hero-fade-up-d1 mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] tracking-tight">
             Our <span className="hero-gradient-text">Services</span>
           </h1>
           <p className="hero-fade-up-d2 mt-6 text-base sm:text-lg text-slate-600 leading-relaxed">
             From the first job search to the signed offer letter — MyTechZ gives you verified
-            opportunities, AI-powered tools, and expert mentors at every step.
+            opportunities, free AI-powered tools, and expert mentors at every step.
           </p>
         </div>
 
@@ -168,7 +221,7 @@ export default function ServicesPage() {
               <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${tintMap[s.tint]}`}>
                 {s.icon}
               </div>
-              <h3 className="mt-4 text-lg font-bold text-slate-900">{s.title}</h3>
+              <h2 className="mt-4 text-lg font-bold text-slate-900">{s.title}</h2>
               <p className="mt-2 text-sm text-slate-600 leading-relaxed">{s.description}</p>
               <Link
                 href={s.href}
@@ -208,13 +261,13 @@ export default function ServicesPage() {
           <div className="bg-white/90 backdrop-blur rounded-3xl border border-slate-100 p-8 sm:p-10 shadow-lg shadow-blue-900/5">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900">For candidates</h2>
             <p className="mt-3 text-slate-600 leading-relaxed">
-              Free to use. Curated listings, AI tools, and mentor access — all built to help you
+              Free to use. Curated listings, free AI resume builder, and mentor access — all built to help you
               move from application to offer faster.
             </p>
             <ul className="mt-6 space-y-2.5 text-sm text-slate-700">
               {[
                 'Daily verified private + government jobs',
-                'AI resume builder and rank checker',
+                'Free AI resume builder and rank checker',
                 'Real-time application tracking',
                 'Expert-led webinars and 1:1 mentorship',
               ].map((f) => (

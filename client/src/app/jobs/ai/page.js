@@ -4,13 +4,17 @@ import { getJobs } from '@/lib/jobs/queries'
 import { createClient } from '@/lib/supabase-server'
 
 export const metadata = {
-  title: 'AI-Matched Jobs — Personalised Career Opportunities',
-  description: 'AI-ranked job matches based on your resume, skills and ambitions. Skip the noise and find roles where you fit best.',
-  alternates: { canonical: '/jobs/ai' },
+  title: 'AI-Matched Jobs — Personalised Tech Job Recommendations India | MyTechZ',
+  description: 'AI-ranked job matches personalized to your resume, skills, and ambitions. Find roles where you fit best — not just keyword matches. Free for all Indian job seekers.',
+  keywords: 'AI matched jobs India, personalized job recommendations, AI job search, fit score jobs, resume-matched jobs India',
+  alternates: { canonical: 'https://mytechz.com/jobs/ai' },
   openGraph: {
-    title: 'AI-Matched Jobs — Personalised Career Opportunities | MyTechZ',
-    description: 'AI-ranked job matches based on your resume, skills and ambitions.',
-    url: '/jobs/ai',
+    title: 'AI-Matched Jobs — Personalised Tech Job Recommendations | MyTechZ',
+    description: 'AI-ranked job matches based on your resume, skills, and ambitions. Skip the noise — find roles where you actually fit.',
+    url: 'https://mytechz.com/jobs/ai',
+    type: 'website',
+    siteName: 'MyTechZ',
+    images: [{ url: 'https://mytechz.com/og-image.png', width: 1200, height: 630, alt: 'AI Job Matching — MyTechZ' }],
   },
   twitter: { card: 'summary_large_image' },
 }

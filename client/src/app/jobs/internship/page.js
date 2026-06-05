@@ -3,13 +3,17 @@ import JobsListingPage, { JobsLoadingGrid } from '@/components/jobs/JobsListingP
 import { getJobs } from '@/lib/jobs/queries'
 
 export const metadata = {
-  title: 'Paid Internships for Students & Freshers',
-  description: 'Explore paid internships across tech, design, marketing and more. Filter by stipend, duration and college eligibility.',
-  alternates: { canonical: '/jobs/internship' },
+  title: 'Paid Internships in India 2024 — Tech, Design & Marketing for Students & Freshers',
+  description: 'Find paid internships in India for students and freshers — across tech, software, design, marketing, finance, and more. Stipends shown per month. Filter by skills, duration, and eligibility.',
+  keywords: 'paid internships India, internships for students, freshers internship, tech internship India, software internship, stipend internship, internship 2024 India',
+  alternates: { canonical: 'https://mytechz.com/jobs/internship' },
   openGraph: {
-    title: 'Paid Internships for Students & Freshers | MyTechZ',
-    description: 'Explore paid internships across tech, design, marketing and more. Filter by stipend, duration and college eligibility.',
-    url: '/jobs/internship',
+    title: 'Paid Internships India 2024 — Tech, Design & Marketing for Students | MyTechZ',
+    description: 'Find paid internships in India for students and freshers. Stipends shown. Filter by skills, duration, eligibility.',
+    url: 'https://mytechz.com/jobs/internship',
+    type: 'website',
+    siteName: 'MyTechZ',
+    images: [{ url: 'https://mytechz.com/og-image.png', width: 1200, height: 630, alt: 'Paid Internships India 2024 — MyTechZ' }],
   },
   twitter: { card: 'summary_large_image' },
 }

@@ -81,14 +81,45 @@ export default function RootLayout({ children }) {
               '@context': 'https://schema.org',
               '@type': 'Organization',
               name: 'MyTechZ',
+              alternateName: ['MyTechZ India', 'Mytechz Career Platform'],
               url: SITE,
-              logo: `${SITE}/Mytechz_logo.png`,
+              logo: {
+                '@type': 'ImageObject',
+                url: `${SITE}/Mytechz_logo.png`,
+                width: 200,
+                height: 60,
+              },
               description:
-                'India\'s AI-powered career platform connecting tech talent with verified private and government job opportunities.',
+                'India\'s AI-powered career platform connecting tech talent with verified private and government job opportunities. Offers a free resume builder, free CV builder, AI job matching, and expert mentorship.',
               foundingDate: '2023',
+              foundingLocation: { '@type': 'Place', addressCountry: 'IN' },
+              areaServed: { '@type': 'Country', name: 'India' },
+              knowsAbout: [
+                'Free Resume Builder',
+                'CV Builder Free',
+                'ATS Resume Builder',
+                'Tech Jobs India',
+                'Government Jobs India',
+                'Paid Internships India',
+                'AI Career Tools',
+              ],
               sameAs: [
                 process.env.NEXT_PUBLIC_LINKEDIN_URL || 'https://www.linkedin.com/company/mytechz',
               ],
+              contactPoint: {
+                '@type': 'ContactPoint',
+                contactType: 'customer support',
+                url: `${SITE}/contact`,
+                availableLanguage: ['English', 'Hindi'],
+              },
+              hasOfferCatalog: {
+                '@type': 'OfferCatalog',
+                name: 'MyTechZ Free Career Services',
+                itemListElement: [
+                  { '@type': 'Offer', name: 'Free Resume Builder', description: 'Build ATS-friendly resumes free. Download PDF or DOCX.', price: '0', priceCurrency: 'INR', url: `${SITE}/ai-tools/resume-builder` },
+                  { '@type': 'Offer', name: 'Free Job Search', description: 'Browse 50,000+ verified tech jobs in India.', price: '0', priceCurrency: 'INR', url: `${SITE}/jobs` },
+                ],
+              },
             }),
           }}
         />

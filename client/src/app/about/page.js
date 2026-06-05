@@ -1,14 +1,21 @@
 import Link from 'next/link'
 
+const SITE = 'https://mytechz.com'
+
 export const metadata = {
-  title: 'About MyTechZ — AI Career Platform Connecting India\'s Tech Talent',
+  title: 'About MyTechZ — India\'s AI-Powered Career Platform for Tech Professionals',
   description:
-    'MyTechZ connects tech professionals with verified employers through AI-powered matching, expert mentorship and career tools. 12,000+ candidates placed.',
-  alternates: { canonical: '/about' },
+    'Learn about MyTechZ — India\'s AI-powered career platform connecting tech talent with verified private and government jobs. 50K+ listings, 12K+ placements, 500+ hiring partners. Founded 2023.',
+  keywords:
+    'about MyTechZ, AI career platform India, tech job portal India, verified job listings, AI resume builder India, Indian job platform',
+  alternates: { canonical: `${SITE}/about` },
   openGraph: {
-    title: 'About MyTechZ — AI Career Platform Connecting India\'s Tech Talent',
-    description: 'MyTechZ connects tech professionals with verified employers through AI-powered matching, expert mentorship and career tools.',
-    url: '/about',
+    title: 'About MyTechZ — India\'s AI Career Platform for Tech Professionals',
+    description: 'MyTechZ connects tech professionals with verified employers through AI-powered matching, expert mentorship, and free career tools. 12,000+ candidates placed.',
+    url: `${SITE}/about`,
+    type: 'website',
+    siteName: 'MyTechZ',
+    images: [{ url: `${SITE}/og-image.png`, width: 1200, height: 630, alt: 'About MyTechZ' }],
   },
   twitter: { card: 'summary_large_image' },
 }
@@ -74,7 +81,7 @@ const timeline = [
     year: '2024',
     title: 'AI Tools Launch',
     description:
-      'Shipped the Resume Builder, Rank Checker, and Smart Job Search — all powered by in-house AI models.',
+      'Shipped the free Resume Builder, Rank Checker, and Smart Job Search — all powered by in-house AI models.',
   },
   {
     year: '2025',
@@ -90,27 +97,67 @@ const timeline = [
   },
 ]
 
-const orgJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Organization',
-  name: 'MyTechZ',
-  url: 'https://mytechz.com',
-  logo: 'https://mytechz.com/Mytechz_logo.png',
-  description:
-    'India\'s AI-powered career platform connecting tech talent with verified private and government job opportunities, expert mentors, and intelligent tools.',
-  foundingDate: '2023',
-  sameAs: ['https://www.linkedin.com/company/mytechz'],
-  contactPoint: {
-    '@type': 'ContactPoint',
-    contactType: 'customer support',
-    url: 'https://mytechz.com/contact',
-  },
+function JsonLd() {
+  const breadcrumb = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE}/` },
+      { '@type': 'ListItem', position: 2, name: 'About MyTechZ', item: `${SITE}/about` },
+    ],
+  }
+
+  const org = {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'MyTechZ',
+    url: SITE,
+    logo: `${SITE}/Mytechz_logo.png`,
+    description:
+      'India\'s AI-powered career platform connecting tech talent with verified private and government job opportunities, expert mentors, and intelligent tools including a free resume builder.',
+    foundingDate: '2023',
+    foundingLocation: { '@type': 'Place', addressCountry: 'IN' },
+    numberOfEmployees: { '@type': 'QuantitativeValue', value: '10-50' },
+    knowsAbout: ['resume building', 'AI career tools', 'tech job placement India', 'government jobs India', 'ATS resume optimization'],
+    sameAs: ['https://www.linkedin.com/company/mytechz'],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'customer support',
+      url: `${SITE}/contact`,
+      availableLanguage: ['English', 'Hindi'],
+    },
+    hasOfferCatalog: {
+      '@type': 'OfferCatalog',
+      name: 'MyTechZ Services',
+      itemListElement: [
+        { '@type': 'Offer', name: 'Free Resume Builder', price: '0', priceCurrency: 'INR', url: `${SITE}/ai-tools/resume-builder` },
+        { '@type': 'Offer', name: 'Job Listings', price: '0', priceCurrency: 'INR', url: `${SITE}/jobs` },
+      ],
+    },
+  }
+
+  const webpage = {
+    '@context': 'https://schema.org',
+    '@type': 'AboutPage',
+    name: 'About MyTechZ',
+    url: `${SITE}/about`,
+    description: 'Learn about MyTechZ — India\'s AI-powered career platform for tech professionals.',
+    mainEntity: { '@type': 'Organization', name: 'MyTechZ', url: SITE },
+  }
+
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumb) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(org) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(webpage) }} />
+    </>
+  )
 }
 
 export default function AboutPage() {
   return (
     <section className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50">
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(orgJsonLd) }} />
+      <JsonLd />
       <div className="pointer-events-none absolute inset-0 hero-grid" />
       <div className="pointer-events-none absolute inset-0">
         <div className="hero-blob absolute -top-24 -left-20 w-80 h-80 bg-blue-300/40 rounded-full blur-3xl" />
@@ -119,6 +166,13 @@ export default function AboutPage() {
       </div>
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-24 sm:pt-40">
+        {/* Breadcrumb */}
+        <nav aria-label="Breadcrumb" className="mb-8 text-xs text-slate-500 flex flex-wrap items-center gap-1">
+          <Link href="/" className="hover:text-blue-700">Home</Link>
+          <span aria-hidden="true">›</span>
+          <span className="text-slate-700">About</span>
+        </nav>
+
         {/* Hero */}
         <div className="text-center max-w-3xl mx-auto">
           <span className="hero-fade-up inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur border border-blue-100 text-xs sm:text-sm font-medium text-blue-700 shadow-sm">
@@ -128,12 +182,12 @@ export default function AboutPage() {
             Built in India, for every career
           </span>
           <h1 className="hero-fade-up-d1 mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold text-slate-900 leading-[1.1] tracking-tight">
-            About <span className="hero-gradient-text">Mytechz</span>
+            About <span className="hero-gradient-text">MyTechZ</span>
           </h1>
           <p className="hero-fade-up-d2 mt-6 text-base sm:text-lg text-slate-600 leading-relaxed">
-            MyTechZ is an AI-powered career platform that connects tech talent with the
+            MyTechZ is India&apos;s AI-powered career platform that connects tech talent with the
             right opportunities — across private companies and government organisations —
-            and equips them with the tools, mentors, and insights to succeed.
+            and equips them with free tools, expert mentors, and insights to succeed.
           </p>
         </div>
 
@@ -163,7 +217,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-slate-900">Our Mission</h2>
             <p className="mt-3 text-slate-600 leading-relaxed">
               Remove every friction between talent and opportunity. We curate verified
-              listings, build AI tools that actually help, and give every candidate — regardless
+              listings, build free AI tools that actually help, and give every candidate — regardless
               of background — a fair shot at a great career in tech.
             </p>
           </div>
@@ -177,7 +231,7 @@ export default function AboutPage() {
             <h2 className="text-2xl font-bold text-slate-900">Our Vision</h2>
             <p className="mt-3 text-slate-600 leading-relaxed">
               To become India&apos;s most trusted career companion — where a student in Coimbatore
-              and a senior engineer in Bengaluru both find opportunities, mentors, and tools
+              and a senior engineer in Bengaluru both find opportunities, mentors, and free tools
               that move their careers forward.
             </p>
           </div>
@@ -246,8 +300,7 @@ export default function AboutPage() {
                 Ready to take the next step?
               </h2>
               <p className="mt-3 text-blue-100 max-w-xl mx-auto">
-                Explore thousands of verified tech jobs or talk to our team about how MyTechZ can help
-                your career or your hiring pipeline.
+                Explore thousands of verified tech jobs or build your free resume with our AI tools — no credit card required.
               </p>
               <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <Link
@@ -260,10 +313,10 @@ export default function AboutPage() {
                   </svg>
                 </Link>
                 <Link
-                  href="/contact"
+                  href="/ai-tools/resume-builder"
                   className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-xl border border-white/20 backdrop-blur transition-all hover:-translate-y-0.5"
                 >
-                  Contact Us
+                  Build Free Resume
                 </Link>
               </div>
             </div>
