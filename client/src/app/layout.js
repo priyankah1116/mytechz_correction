@@ -2,6 +2,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 import { GoogleAnalytics } from '@next/third-parties/google'
 import './globals.css'
 import LayoutShell from '@/components/LayoutShell'
+import ClarityInit from '@/components/ClarityInit'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -161,6 +162,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="min-h-full flex flex-col">
+        <ClarityInit />
         <LayoutShell>{children}</LayoutShell>
       </body>
       <GoogleAnalytics gaId="G-FXKXL6XP9H" />
