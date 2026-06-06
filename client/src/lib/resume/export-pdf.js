@@ -3,61 +3,123 @@ import PDFDocument from 'pdfkit'
 
 // Color palette per template
 const PALETTES = {
-  classic: { primary: '#1e40af', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
-  modern: { primary: '#7c3aed', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
-  minimal: { primary: '#374151', heading: '#111827', text: '#4b5563', light: '#9ca3af' },
-  creative: { primary: '#059669', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
+  classic:      { primary: '#1e40af', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
+  modern:       { primary: '#7c3aed', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
+  minimal:      { primary: '#374151', heading: '#111827', text: '#4b5563', light: '#9ca3af' },
+  creative:     { primary: '#059669', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
   professional: { primary: '#0f172a', heading: '#0f172a', text: '#334155', light: '#64748b' },
-  tech: { primary: '#ea580c', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
+  tech:         { primary: '#ea580c', heading: '#0f172a', text: '#334155', light: '#94a3b8' },
 }
 
 function formatDate(dateStr) {
   if (!dateStr) return ''
   const [year, month] = dateStr.split('-')
   if (!year) return dateStr
-  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
   if (month) return `${months[parseInt(month, 10) - 1]} ${year}`
   return year
 }
+
+// Hex color string → PDFKit-compatible hex
+function hex(c) { return c.startsWith('#') ? c : `#${c}` }
 
 export function toResumePDF(resumeData, templateSlug = 'classic') {
   return new Promise((resolve, reject) => {
     const colors = PALETTES[templateSlug] || PALETTES.classic
     const d = resumeData || {}
-    const basics = d.basics || {}
-    const work = d.work || []
-    const education = d.education || []
-    const skills = d.skills || []
-    const projects = d.projects || []
+    const basics       = d.basics       || {}
+    const work         = d.work         || []
+    const education    = d.education    || []
+    const skills       = d.skills       || []
+    const projects     = d.projects     || []
     const certificates = d.certificates || []
-    const languages = d.languages || []
+    const languages    = d.languages    || []
 
-    const doc = new PDFDocument({ size: 'A4', margin: 48 })
+    const doc = new PDFDocument({ size: 'A4', margins: { top: 44, bottom: 44, left: 52, right: 52 } })
     const chunks = []
     doc.on('data', (c) => chunks.push(c))
-    doc.on('end', () => resolve(Buffer.concat(chunks)))
+    doc.on('end',  () => resolve(Buffer.concat(chunks)))
     doc.on('error', reject)
 
-    const pageW = doc.page.width - doc.page.margins.left - doc.page.margins.right
+    const ml  = doc.page.margins.left
+    const mr  = doc.page.margins.right
+    const mt  = doc.page.margins.top
+    const mb  = doc.page.margins.bottom
+    const pageW = doc.page.width - ml - mr
 
-    // Helper: check page break
+    // ── Helpers ────────────────────────────────────────────────────────────────
+
     function checkBreak(needed = 60) {
-      if (doc.y + needed > doc.page.height - doc.page.margins.bottom - 20) {
-        doc.addPage()
-      }
+      if (doc.y + needed > doc.page.height - mb - 20) doc.addPage()
     }
 
-    // === HEADER ===
-    doc.fontSize(22).fillColor(colors.heading).text(basics.name || 'Your Name', { continued: false })
-    if (basics.label) {
-      doc.fontSize(12).fillColor(colors.primary).text(basics.label)
+    // Section heading with a colored underline
+    function sectionHeading(label) {
+      checkBreak(40)
+      doc.font('Helvetica-Bold').fontSize(9.5).fillColor(hex(colors.heading))
+        .text(label.toUpperCase(), ml, doc.y, { width: pageW, characterSpacing: 0.8 })
+      const y = doc.y
+      doc.moveTo(ml, y).lineTo(ml + pageW, y)
+        .strokeColor(hex(colors.primary)).lineWidth(1).stroke()
+      doc.y = y + 4
     }
-    doc.moveDown(0.3)
+
+    // Title row: bold left + light date right — uses explicit x/y to avoid PDFKit continued-text bugs
+    function titleRow(titleText, dateText) {
+      checkBreak(16)
+      const y        = doc.y
+      const dateColW = 108
+
+      // Date on the right
+      doc.font('Helvetica').fontSize(8.5).fillColor(hex(colors.light))
+        .text(dateText, ml + pageW - dateColW, y, {
+          width: dateColW, align: 'right', lineBreak: false,
+        })
+
+      // Bold title on the left (leaves room for date)
+      doc.font('Helvetica-Bold').fontSize(10).fillColor(hex(colors.heading))
+        .text(titleText, ml, y, {
+          width: pageW - dateColW - 6, lineBreak: false,
+        })
+
+      doc.y = y + 13
+    }
+
+    // Sub-label (company / institution) in accent color
+    function subLabel(text) {
+      doc.font('Helvetica').fontSize(9.5).fillColor(hex(colors.primary))
+        .text(text, ml, doc.y, { width: pageW })
+    }
+
+    // Body paragraph
+    function bodyText(text) {
+      doc.font('Helvetica').fontSize(9).fillColor(hex(colors.text))
+        .text(text, ml, doc.y, { width: pageW, lineGap: 1.5 })
+    }
+
+    // Bullet point
+    function bulletItem(text) {
+      checkBreak(14)
+      const bx = ml + 10
+      doc.font('Helvetica').fontSize(9).fillColor(hex(colors.text))
+        .text(`\u2022  ${text}`, bx, doc.y, { width: pageW - 10, lineGap: 1 })
+    }
+
+    // ── HEADER ─────────────────────────────────────────────────────────────────
+
+    doc.font('Helvetica-Bold').fontSize(24).fillColor(hex(colors.heading))
+      .text(basics.name || 'Your Name', ml, mt, { width: pageW })
+
+    if (basics.label) {
+      doc.moveDown(0.15)
+      doc.font('Helvetica').fontSize(11.5).fillColor(hex(colors.primary))
+        .text(basics.label, ml, doc.y, { width: pageW })
+    }
 
     // Contact line
     const contactParts = []
-    if (basics.email) contactParts.push(basics.email)
-    if (basics.phone) contactParts.push(basics.phone)
+    if (basics.email)          contactParts.push(basics.email)
+    if (basics.phone)          contactParts.push(basics.phone)
     if (basics.location?.city) {
       let loc = basics.location.city
       if (basics.location.region) loc += `, ${basics.location.region}`
@@ -68,142 +130,155 @@ export function toResumePDF(resumeData, templateSlug = 'classic') {
       if (p.url || p.username) contactParts.push(`${p.network}: ${p.url || p.username}`)
     })
     if (contactParts.length) {
-      doc.fontSize(8.5).fillColor(colors.light).text(contactParts.join('  |  '))
+      doc.moveDown(0.2)
+      doc.font('Helvetica').fontSize(8.5).fillColor(hex(colors.light))
+        .text(contactParts.join('   \u2022   '), ml, doc.y, { width: pageW })
     }
 
-    // Divider
-    doc.moveDown(0.5)
-    doc.moveTo(doc.page.margins.left, doc.y)
-      .lineTo(doc.page.margins.left + pageW, doc.y)
-      .strokeColor(colors.primary)
-      .lineWidth(2)
-      .stroke()
-    doc.moveDown(0.6)
+    // Header divider
+    doc.moveDown(0.4)
+    const divY = doc.y
+    doc.moveTo(ml, divY).lineTo(ml + pageW, divY)
+      .strokeColor(hex(colors.primary)).lineWidth(2).stroke()
+    doc.y = divY + 8
 
-    // === SUMMARY ===
+    // ── SUMMARY ────────────────────────────────────────────────────────────────
+
     if (basics.summary) {
-      doc.fontSize(11).font('Helvetica-Bold').fillColor(colors.heading).text('PROFESSIONAL SUMMARY')
-      doc.moveDown(0.3)
-      doc.font('Helvetica').fontSize(9.5).fillColor(colors.text).text(basics.summary, { lineGap: 2 })
-      doc.moveDown(0.6)
+      sectionHeading('Professional Summary')
+      doc.moveDown(0.2)
+      bodyText(basics.summary)
+      doc.moveDown(0.7)
     }
 
-    // === EXPERIENCE ===
+    // ── EXPERIENCE ─────────────────────────────────────────────────────────────
+
     if (work.length > 0) {
-      checkBreak(40)
-      doc.fontSize(11).font('Helvetica-Bold').fillColor(colors.heading).text('EXPERIENCE')
+      sectionHeading('Experience')
       doc.moveDown(0.3)
 
-      work.forEach((w) => {
+      work.forEach((w, i) => {
+        if (i > 0) doc.moveDown(0.4)
         checkBreak(50)
-        const dateStr = `${formatDate(w.startDate)} — ${w.current ? 'Present' : formatDate(w.endDate)}`
 
-        doc.font('Helvetica-Bold').fontSize(10).fillColor(colors.heading)
-          .text(w.position || '', { continued: true })
-        doc.font('Helvetica').fontSize(9).fillColor(colors.light)
-          .text(`  ${dateStr}`, { align: 'right' })
+        const dateStr = `${formatDate(w.startDate)} \u2014 ${w.current ? 'Present' : formatDate(w.endDate)}`
+        titleRow(w.position || '', dateStr)
+        if (w.name) subLabel(w.name)
 
-        doc.font('Helvetica').fontSize(9.5).fillColor(colors.primary)
-          .text(w.name || '')
+        if (w.summary) {
+          doc.moveDown(0.15)
+          bodyText(w.summary)
+        }
 
         const highlights = (w.highlights || []).filter(Boolean)
         if (highlights.length) {
           doc.moveDown(0.2)
-          highlights.forEach((h) => {
-            checkBreak(15)
-            doc.font('Helvetica').fontSize(9).fillColor(colors.text)
-            const bullet = `  •  ${h}`
-            doc.text(bullet, doc.page.margins.left + 8, undefined, { width: pageW - 16, lineGap: 1 })
-          })
+          highlights.forEach((h) => bulletItem(h))
         }
-        doc.moveDown(0.5)
       })
+      doc.moveDown(0.7)
     }
 
-    // === EDUCATION ===
+    // ── EDUCATION ──────────────────────────────────────────────────────────────
+
     if (education.length > 0) {
-      checkBreak(40)
-      doc.fontSize(11).font('Helvetica-Bold').fillColor(colors.heading).text('EDUCATION')
+      sectionHeading('Education')
       doc.moveDown(0.3)
 
-      education.forEach((e) => {
-        checkBreak(30)
-        const degree = `${e.studyType ? `${e.studyType} in ` : ''}${e.area || ''}`
-        const dateStr = `${formatDate(e.startDate)} — ${formatDate(e.endDate)}`
+      education.forEach((e, i) => {
+        if (i > 0) doc.moveDown(0.35)
+        checkBreak(35)
 
-        doc.font('Helvetica-Bold').fontSize(10).fillColor(colors.heading)
-          .text(degree, { continued: true })
-        doc.font('Helvetica').fontSize(9).fillColor(colors.light)
-          .text(`  ${dateStr}`, { align: 'right' })
-
-        doc.font('Helvetica').fontSize(9.5).fillColor(colors.primary)
-          .text(e.institution || '')
-
+        const degree  = [e.studyType ? `${e.studyType} in` : '', e.area || ''].filter(Boolean).join(' ')
+        const dateStr = `${formatDate(e.startDate)} \u2014 ${formatDate(e.endDate)}`
+        titleRow(degree, dateStr)
+        if (e.institution) subLabel(e.institution)
         if (e.score) {
-          doc.font('Helvetica').fontSize(8.5).fillColor(colors.light).text(`Score: ${e.score}`)
+          doc.font('Helvetica').fontSize(8.5).fillColor(hex(colors.light))
+            .text(`Score: ${e.score}`, ml, doc.y, { width: pageW })
         }
-        doc.moveDown(0.4)
       })
+      doc.moveDown(0.7)
     }
 
-    // === SKILLS ===
+    // ── SKILLS ─────────────────────────────────────────────────────────────────
+
     if (skills.length > 0) {
-      checkBreak(30)
-      doc.fontSize(11).font('Helvetica-Bold').fillColor(colors.heading).text('SKILLS')
+      sectionHeading('Skills')
       doc.moveDown(0.3)
 
       skills.forEach((s) => {
-        doc.font('Helvetica-Bold').fontSize(9).fillColor(colors.heading)
-          .text(`${s.name}: `, { continued: true })
-        doc.font('Helvetica').fontSize(9).fillColor(colors.text)
-          .text((s.keywords || []).join(', '))
+        doc.font('Helvetica-Bold').fontSize(9).fillColor(hex(colors.heading))
+          .text(`${s.name}:  `, ml, doc.y, { continued: true, width: pageW })
+        doc.font('Helvetica').fontSize(9).fillColor(hex(colors.text))
+          .text((s.keywords || []).join(', '), { width: pageW, lineGap: 1 })
       })
-      doc.moveDown(0.5)
+      doc.moveDown(0.7)
     }
 
-    // === PROJECTS ===
+    // ── PROJECTS ───────────────────────────────────────────────────────────────
+
     if (projects.length > 0) {
-      checkBreak(30)
-      doc.fontSize(11).font('Helvetica-Bold').fillColor(colors.heading).text('PROJECTS')
+      sectionHeading('Projects')
       doc.moveDown(0.3)
 
-      projects.forEach((p) => {
+      projects.forEach((p, i) => {
+        if (i > 0) doc.moveDown(0.35)
         checkBreak(30)
-        doc.font('Helvetica-Bold').fontSize(10).fillColor(colors.heading).text(p.name || '')
+
+        doc.font('Helvetica-Bold').fontSize(10).fillColor(hex(colors.heading))
+          .text(p.name || '', ml, doc.y, { width: pageW })
+
+        if (p.url) {
+          doc.font('Helvetica').fontSize(8.5).fillColor(hex(colors.primary))
+            .text(p.url, ml, doc.y, { width: pageW })
+        }
         if (p.description) {
-          doc.font('Helvetica').fontSize(9).fillColor(colors.text).text(p.description)
+          doc.moveDown(0.1)
+          bodyText(p.description)
         }
         const highlights = (p.highlights || []).filter(Boolean)
-        highlights.forEach((h) => {
-          checkBreak(15)
-          doc.font('Helvetica').fontSize(9).fillColor(colors.text).text(`  •  ${h}`, { lineGap: 1 })
-        })
-        doc.moveDown(0.3)
+        if (highlights.length) {
+          doc.moveDown(0.15)
+          highlights.forEach((h) => bulletItem(h))
+        }
       })
+      doc.moveDown(0.7)
     }
 
-    // === CERTIFICATIONS ===
+    // ── CERTIFICATIONS ─────────────────────────────────────────────────────────
+
     if (certificates.length > 0) {
-      checkBreak(25)
-      doc.fontSize(11).font('Helvetica-Bold').fillColor(colors.heading).text('CERTIFICATIONS')
+      sectionHeading('Certifications')
       doc.moveDown(0.3)
 
       certificates.forEach((c) => {
-        doc.font('Helvetica-Bold').fontSize(9).fillColor(colors.heading)
-          .text(`${c.name}`, { continued: true })
-        doc.font('Helvetica').fillColor(colors.text)
-          .text(` — ${c.issuer}${c.date ? ` (${formatDate(c.date)})` : ''}`)
+        checkBreak(14)
+        const dateStr = c.date ? formatDate(c.date) : ''
+
+        if (dateStr) {
+          titleRow(
+            `${c.name}  \u2014  ${c.issuer}`,
+            dateStr,
+          )
+        } else {
+          doc.font('Helvetica-Bold').fontSize(9).fillColor(hex(colors.heading))
+            .text(c.name, ml, doc.y, { continued: true })
+          doc.font('Helvetica').fillColor(hex(colors.text))
+            .text(`  \u2014  ${c.issuer}`)
+        }
       })
-      doc.moveDown(0.4)
+      doc.moveDown(0.7)
     }
 
-    // === LANGUAGES ===
+    // ── LANGUAGES ──────────────────────────────────────────────────────────────
+
     if (languages.length > 0) {
-      checkBreak(20)
-      doc.fontSize(11).font('Helvetica-Bold').fillColor(colors.heading).text('LANGUAGES')
+      sectionHeading('Languages')
       doc.moveDown(0.3)
-      const langText = languages.map((l) => `${l.language} (${l.fluency})`).join('  |  ')
-      doc.font('Helvetica').fontSize(9).fillColor(colors.text).text(langText)
+      const langText = languages.map((l) => `${l.language} (${l.fluency})`).join('   \u2022   ')
+      doc.font('Helvetica').fontSize(9).fillColor(hex(colors.text))
+        .text(langText, ml, doc.y, { width: pageW })
     }
 
     doc.end()

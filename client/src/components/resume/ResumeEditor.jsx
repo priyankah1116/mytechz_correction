@@ -28,7 +28,7 @@ export default function ResumeEditor({ templateSlug = 'classic', resumeId = null
   const [step, setStep] = useState(0)
   const [data, setData] = useState({ ...DEFAULT_RESUME_DATA })
   const [docId, setDocId] = useState(resumeId)
-  const [saving, setSaving] = useState(false)
+  const [saveStatus, setSaveStatus] = useState('idle') // 'idle' | 'saving' | 'saved' | 'error'
   const [exporting, setExporting] = useState(false)
   const [title, setTitle] = useState('Untitled Resume')
   const [template, setTemplate] = useState(templateSlug)
@@ -72,7 +72,7 @@ export default function ResumeEditor({ templateSlug = 'classic', resumeId = null
 
   // Auto-save
   async function save() {
-    setSaving(true)
+    setSaveStatus('saving')
     try {
       if (docId) {
         await updateResume(docId, { title, templateSlug: template, resumeData: data })
@@ -81,10 +81,13 @@ export default function ResumeEditor({ templateSlug = 'classic', resumeId = null
         setDocId(doc.id)
         window.history.replaceState(null, '', `/ai-tools/resume-builder/editor?template=${template}&resumeId=${doc.id}`)
       }
+      setSaveStatus('saved')
+      setTimeout(() => setSaveStatus('idle'), 2000)
     } catch (err) {
       console.error('Save failed:', err)
+      setSaveStatus('error')
+      setTimeout(() => setSaveStatus('idle'), 2000)
     }
-    setSaving(false)
   }
 
   async function handleExport(format) {
@@ -153,10 +156,34 @@ export default function ResumeEditor({ templateSlug = 'classic', resumeId = null
             </button>
             <button
               onClick={save}
-              disabled={saving}
-              className="px-4 py-1.5 text-sm font-medium text-slate-700 border border-slate-200 rounded-lg hover:bg-slate-50 disabled:opacity-50"
+              disabled={saveStatus === 'saving'}
+              className={`px-4 py-1.5 text-sm font-medium rounded-lg border transition-all duration-200 flex items-center gap-1.5 ${
+                saveStatus === 'saved'
+                  ? 'bg-green-50 text-green-700 border-green-200'
+                  : saveStatus === 'error'
+                  ? 'bg-red-50 text-red-700 border-red-200'
+                  : 'text-slate-700 border-slate-200 hover:bg-slate-50 disabled:opacity-50'
+              }`}
             >
-              {saving ? 'Saving...' : 'Save Draft'}
+              {saveStatus === 'saving' && (
+                <>
+                  <svg className="animate-spin w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                  Saving...
+                </>
+              )}
+              {saveStatus === 'saved' && (
+                <>
+                  <svg className="w-3.5 h-3.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                  </svg>
+                  Saved!
+                </>
+              )}
+              {saveStatus === 'error' && 'Failed — Retry'}
+              {saveStatus === 'idle' && 'Save Draft'}
             </button>
             <button
               onClick={() => handleExport('pdf')}

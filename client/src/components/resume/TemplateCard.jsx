@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useState, useEffect } from 'react'
 import Link from 'next/link'
 import { SAMPLE_RESUME_DATA } from '@/lib/resume/schema'
 import dynamic from 'next/dynamic'
@@ -13,8 +14,25 @@ const templates = {
   tech: dynamic(() => import('./templates/TechTemplate'), { ssr: false }),
 }
 
+// A4 width in CSS pixels at 96 dpi (210mm)
+const A4_W_PX = 794
+
 export default function TemplateCard({ template, showUseButton = true }) {
   const TemplateComponent = templates[template.slug]
+  const containerRef = useRef(null)
+  const [scale, setScale] = useState(0.3)
+
+  useEffect(() => {
+    if (!containerRef.current) return
+    const update = () => {
+      const w = containerRef.current?.offsetWidth
+      if (w) setScale(w / A4_W_PX)
+    }
+    update()
+    const ro = new ResizeObserver(update)
+    ro.observe(containerRef.current)
+    return () => ro.disconnect()
+  }, [])
 
   return (
     <div className="group relative">
@@ -24,10 +42,10 @@ export default function TemplateCard({ template, showUseButton = true }) {
       >
         {/* Preview */}
         <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-          <div className="relative w-full aspect-[210/297] overflow-hidden">
-            <div className="absolute inset-0 origin-top-left" style={{ transform: 'scale(0.28)', width: '357%', height: '357%' }}>
-              {TemplateComponent && <TemplateComponent data={SAMPLE_RESUME_DATA} />}
-            </div>
+          <div ref={containerRef} className="relative w-full aspect-[210/297] overflow-hidden">
+            {TemplateComponent && (
+              <TemplateComponent data={SAMPLE_RESUME_DATA} scale={scale} />
+            )}
             {/* Overlay on hover */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
               <span className="text-white text-sm font-semibold">Preview Template</span>

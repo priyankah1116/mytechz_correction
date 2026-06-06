@@ -107,10 +107,12 @@ export async function toResumeDOCX(resumeData, templateSlug = 'classic') {
   // Experience
   if (work.length > 0) {
     children.push(heading('Experience', color))
-    work.forEach((w) => {
+    work.forEach((w, i) => {
+      if (i > 0) children.push(new Paragraph({ spacing: { before: 120 } }))
       const dateStr = `${formatDate(w.startDate)} — ${w.current ? 'Present' : formatDate(w.endDate)}`
       children.push(titleDate(w.position || '', dateStr, color))
       children.push(body(w.name || '', color))
+      if (w.summary) children.push(body(w.summary))
       ;(w.highlights || []).filter(Boolean).forEach((h) => children.push(bullet(h)))
     })
   }
@@ -118,7 +120,8 @@ export async function toResumeDOCX(resumeData, templateSlug = 'classic') {
   // Education
   if (education.length > 0) {
     children.push(heading('Education', color))
-    education.forEach((e) => {
+    education.forEach((e, i) => {
+      if (i > 0) children.push(new Paragraph({ spacing: { before: 100 } }))
       const degree = `${e.studyType ? `${e.studyType} in ` : ''}${e.area || ''}`
       const dateStr = `${formatDate(e.startDate)} — ${formatDate(e.endDate)}`
       children.push(titleDate(degree, dateStr, color))
@@ -176,7 +179,19 @@ export async function toResumeDOCX(resumeData, templateSlug = 'classic') {
     creator: 'MyTechZ Resume Builder',
     title: `${basics.name || 'Resume'} — Resume`,
     styles: { default: { document: { run: { font: 'Calibri', size: 20 } } } },
-    sections: [{ children }],
+    sections: [{
+      properties: {
+        page: {
+          margin: {
+            top:    720,   // 0.5 in
+            bottom: 720,
+            left:   1080,  // 0.75 in
+            right:  1080,
+          },
+        },
+      },
+      children,
+    }],
   })
 
   return Packer.toBuffer(doc)

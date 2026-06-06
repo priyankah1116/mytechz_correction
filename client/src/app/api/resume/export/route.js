@@ -22,14 +22,16 @@ export async function GET(req) {
 
   if (error || !resume) return NextResponse.json({ error: 'Resume not found' }, { status: 404 })
 
-  const title = resume.title || 'Resume'
+  const rawTitle = resume.title || 'Resume'
+  // Sanitize filename: keep letters, digits, spaces, hyphens, underscores
+  const safeTitle = rawTitle.replace(/[^\w\s\-]/g, '').trim().replace(/\s+/g, '_') || 'Resume'
 
   if (format === 'docx') {
     const buffer = await toResumeDOCX(resume.resume_data, resume.template_slug)
     return new Response(buffer, {
       headers: {
         'Content-Type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'Content-Disposition': `attachment; filename="${title}.docx"`,
+        'Content-Disposition': `attachment; filename="${safeTitle}.docx"`,
       },
     })
   }
@@ -39,7 +41,7 @@ export async function GET(req) {
   return new Response(buffer, {
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="${title}.pdf"`,
+      'Content-Disposition': `attachment; filename="${safeTitle}.pdf"`,
     },
   })
 }
