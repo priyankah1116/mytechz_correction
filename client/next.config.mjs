@@ -60,6 +60,13 @@ const nextConfig = {
       { source: '/register', destination: '/login', permanent: true },
       { source: '/sign-up', destination: '/login', permanent: true },
       { source: '/sign-in', destination: '/login', permanent: true },
+      // Resume ATS Checker variants → canonical
+      { source: '/ats-checker',     destination: '/ai-tools/resume-rank-checker', permanent: true },
+      { source: '/resume-score',    destination: '/ai-tools/resume-rank-checker', permanent: true },
+      { source: '/resume-checker',  destination: '/ai-tools/resume-rank-checker', permanent: true },
+      { source: '/ats-score',       destination: '/ai-tools/resume-rank-checker', permanent: true },
+      { source: '/resume-ats-test', destination: '/ai-tools/resume-rank-checker', permanent: true },
+      { source: '/resume-analysis', destination: '/ai-tools/resume-rank-checker', permanent: true },
     ]
   },
 };
