@@ -7,8 +7,8 @@ const FAST_MODEL = process.env.AI_MODEL_FAST || 'llama-3.3-70b-versatile'
 const SMART_MODEL = process.env.AI_MODEL_SMART || 'llama-3.3-70b-versatile'
 
 export function isLLMConfigured() {
-  if (PROVIDER === 'groq') return !!GROQ_KEY
-  if (PROVIDER === 'anthropic') return !!ANTHROPIC_KEY
+  if (PROVIDER === 'groq') return !!(GROQ_KEY && GROQ_KEY.startsWith('gsk_') && GROQ_KEY.length > 20)
+  if (PROVIDER === 'anthropic') return !!(ANTHROPIC_KEY && ANTHROPIC_KEY.startsWith('sk-ant-') && ANTHROPIC_KEY.length > 20)
   return false
 }
 

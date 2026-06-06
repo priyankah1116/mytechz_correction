@@ -40,18 +40,18 @@ export default function ResumeEditor({ templateSlug = 'classic', resumeId = null
     setData((prev) => {
       const merged = { ...prev }
       if (parsed.basics) merged.basics = { ...prev.basics, ...parsed.basics }
-      if (parsed.work?.length) merged.work = parsed.work
-      if (parsed.education?.length) merged.education = parsed.education
-      if (parsed.skills?.length) merged.skills = parsed.skills
-      if (parsed.projects?.length) merged.projects = parsed.projects
+      if (parsed.work?.length)         merged.work         = parsed.work
+      if (parsed.education?.length)    merged.education    = parsed.education
+      if (parsed.skills?.length)       merged.skills       = parsed.skills
+      if (parsed.projects?.length)     merged.projects     = parsed.projects
       if (parsed.certificates?.length) merged.certificates = parsed.certificates
-      if (parsed.languages?.length) merged.languages = parsed.languages
+      if (parsed.languages?.length)    merged.languages    = parsed.languages
       return merged
     })
-    if (parsed.basics?.name) {
-      setTitle(`${parsed.basics.name}'s Resume`)
-    }
+    if (parsed.basics?.name) setTitle(`${parsed.basics.name}'s Resume`)
     setShowUploader(false)
+    // Navigate to Personal Info step so the user sees the populated fields
+    setStep(0)
   }
 
   // Load existing resume

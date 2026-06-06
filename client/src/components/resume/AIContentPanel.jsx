@@ -19,8 +19,10 @@ export default function AIContentPanel({ resumeData, onApply }) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ action, context }),
       })
-      if (!res.ok) throw new Error('AI request failed')
-      const data = await res.json()
+      const data = await res.json().catch(() => ({}))
+      if (!res.ok) {
+        throw new Error(data.error || `Request failed (${res.status})`)
+      }
       setResult(data)
     } catch (err) {
       setResult({ error: err.message })
@@ -175,20 +177,46 @@ export default function AIContentPanel({ resumeData, onApply }) {
             {loading ? 'Checking...' : 'Check ATS Score'}
           </button>
           {result?.score !== undefined && (
-            <div className="mt-3 p-4 bg-white rounded-lg border border-slate-200">
-              <div className="text-center mb-3">
+            <div className="mt-3 p-4 bg-white rounded-lg border border-slate-200 space-y-3">
+              <div className="text-center">
                 <div className={`text-3xl font-bold ${result.score >= 75 ? 'text-green-600' : result.score >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
                   {result.score}/100
                 </div>
-                <p className="text-xs text-slate-500">ATS Score</p>
+                <p className="text-xs text-slate-500">ATS Match Score</p>
               </div>
+              {result.breakdown && Object.keys(result.breakdown).length > 0 && (
+                <div className="space-y-1">
+                  {Object.entries(result.breakdown).map(([k, v]) => (
+                    <div key={k} className="flex items-center gap-2 text-xs">
+                      <span className="text-slate-500 capitalize w-20 shrink-0">{k}</span>
+                      <div className="flex-1 bg-slate-100 rounded-full h-1.5">
+                        <div
+                          className={`h-1.5 rounded-full ${v >= 75 ? 'bg-green-500' : v >= 50 ? 'bg-amber-400' : 'bg-red-400'}`}
+                          style={{ width: `${v}%` }}
+                        />
+                      </div>
+                      <span className="text-slate-600 font-medium w-7 text-right">{v}</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {result.missing_keywords?.length > 0 && (
+                <div>
+                  <p className="text-xs font-semibold text-slate-700 mb-1">Missing keywords:</p>
+                  <div className="flex flex-wrap gap-1">
+                    {result.missing_keywords.map((kw, i) => (
+                      <span key={i} className="text-[10px] bg-red-50 text-red-600 border border-red-100 px-1.5 py-0.5 rounded-full">{kw}</span>
+                    ))}
+                  </div>
+                </div>
+              )}
               {result.suggestions?.length > 0 && (
                 <div>
                   <p className="text-xs font-semibold text-slate-700 mb-1">Suggestions:</p>
                   <ul className="space-y-1">
                     {result.suggestions.map((s, i) => (
                       <li key={i} className="text-xs text-slate-600 flex gap-1.5">
-                        <span className="text-amber-500 shrink-0">!</span>{s}
+                        <span className="text-amber-500 shrink-0">&#9888;</span>{s}
                       </li>
                     ))}
                   </ul>
@@ -201,7 +229,12 @@ export default function AIContentPanel({ resumeData, onApply }) {
 
       {/* Error display */}
       {result?.error && (
-        <p className="mt-3 text-xs text-red-600 bg-red-50 rounded-lg p-2">{result.error}</p>
+        <div className="mt-3 flex items-start gap-2 text-xs text-red-700 bg-red-50 border border-red-200 rounded-lg p-2.5">
+          <svg className="w-4 h-4 shrink-0 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+          </svg>
+          <span>{result.error}</span>
+        </div>
       )}
     </div>
   )
