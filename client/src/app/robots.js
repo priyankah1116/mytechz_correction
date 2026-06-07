@@ -13,6 +13,7 @@ const PRIVATE_PATHS = [
   '/settings',
   '/ai-tools/resume-builder/editor',
   '/ai-tools/resume-builder/my-resumes',
+  '/ai-tools/resume-rank-checker/results',
 ]
 
 export default function robots() {
