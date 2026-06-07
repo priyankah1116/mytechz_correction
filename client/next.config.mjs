@@ -6,6 +6,8 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Packages that use Node.js built-ins must be kept out of the webpack bundle
+  serverExternalPackages: ['pdfkit', 'docx', 'pdf-parse', 'mammoth'],
   turbopack: {
     root: __dirname,
     resolveAlias: {
