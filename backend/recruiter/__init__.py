@@ -1,1 +1,0 @@
-# Recruiter app for company profiles and job management
