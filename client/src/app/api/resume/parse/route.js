@@ -135,7 +135,8 @@ Rules:
 // ── PDF text extraction ───────────────────────────────────────────────────────
 async function extractPDF(buffer) {
   try {
-    const pdfParse = (await import('pdf-parse')).default
+    // Use internal lib path to avoid pdf-parse's test-file check that fails in Next.js
+    const pdfParse = (await import('pdf-parse/lib/pdf-parse.js')).default
     const data = await pdfParse(buffer)
     return data.text || ''
   } catch (e1) {

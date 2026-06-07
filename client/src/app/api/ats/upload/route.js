@@ -173,21 +173,26 @@ export async function POST(req) {
 
 async function extractPDF(buffer) {
   try {
-    const pdfParse = (await import('pdf-parse')).default
+    // Use internal lib path to avoid pdf-parse's test-file check that fails in Next.js
+    const pdfParse = (await import('pdf-parse/lib/pdf-parse.js')).default
     const data = await pdfParse(buffer)
     return data.text || ''
   } catch {
     // Fallback: pdfjs-dist
-    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
-    const doc = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise
-    let text = ''
-    for (let i = 1; i <= doc.numPages; i++) {
-      const page = await doc.getPage(i)
-      const content = await page.getTextContent()
-      text += content.items.map(item => item.str).join(' ') + '\n'
+    try {
+      const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
+      const doc = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise
+      let text = ''
+      for (let i = 1; i <= doc.numPages; i++) {
+        const page = await doc.getPage(i)
+        const content = await page.getTextContent()
+        text += content.items.map(item => item.str).join(' ') + '\n'
+      }
+      await doc.destroy()
+      return text
+    } catch (e2) {
+      throw new Error(`PDF extraction failed: ${e2.message}`)
     }
-    await doc.destroy()
-    return text
   }
 }
 
