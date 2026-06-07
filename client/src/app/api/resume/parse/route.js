@@ -135,13 +135,11 @@ Rules:
 // ── PDF text extraction ───────────────────────────────────────────────────────
 async function extractPDF(buffer) {
   try {
-    const { PDFParse } = await import('pdf-parse')
-    const parser = new PDFParse({ data: new Uint8Array(buffer), verbosity: 0 })
-    const result = await parser.getText()
-    await parser.destroy()
-    return result?.text || ''
+    const pdfParse = (await import('pdf-parse')).default
+    const data = await pdfParse(buffer)
+    return data.text || ''
   } catch (e1) {
-    // Fallback: try pdfjs-dist directly
+    // Fallback: pdfjs-dist
     try {
       const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
       const doc = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise
