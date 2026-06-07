@@ -134,27 +134,48 @@ Rules:
 
 // ── PDF text extraction ───────────────────────────────────────────────────────
 async function extractPDF(buffer) {
+  // Method 1: pdf-parse v2 class API with Node.js-safe options
   try {
-    // Use internal lib path to avoid pdf-parse's test-file check that fails in Next.js
-    const pdfParse = (await import('pdf-parse/lib/pdf-parse.js')).default
-    const data = await pdfParse(buffer)
-    return data.text || ''
-  } catch (e1) {
-    // Fallback: pdfjs-dist
-    try {
-      const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
-      const doc = await pdfjsLib.getDocument({ data: new Uint8Array(buffer) }).promise
-      let text = ''
-      for (let i = 1; i <= doc.numPages; i++) {
-        const page = await doc.getPage(i)
-        const content = await page.getTextContent()
-        text += content.items.map((item) => item.str).join(' ') + '\n'
-      }
-      await doc.destroy()
-      return text
-    } catch (e2) {
-      throw new Error(`PDF extraction failed: ${e2.message}`)
+    const { PDFParse } = await import('pdf-parse')
+    const parser = new PDFParse({
+      data: new Uint8Array(buffer),
+      verbosity: 0,
+      useWorkerFetch: false,
+      isEvalSupported: false,
+      useSystemFonts: true,
+      disableFontFace: true,
+      disableRange: true,
+      disableStream: true,
+    })
+    const result = await parser.getText()
+    await parser.destroy()
+    const text = result?.text || ''
+    if (text.trim().length > 5) return text
+  } catch {}
+
+  // Method 2: pdfjs-dist directly with worker disabled
+  try {
+    const pdfjsLib = await import('pdfjs-dist/legacy/build/pdf.mjs')
+    pdfjsLib.GlobalWorkerOptions.workerSrc = ''
+    const doc = await pdfjsLib.getDocument({
+      data: new Uint8Array(buffer),
+      useWorkerFetch: false,
+      isEvalSupported: false,
+      useSystemFonts: true,
+      disableFontFace: true,
+      disableRange: true,
+      disableStream: true,
+    }).promise
+    let text = ''
+    for (let i = 1; i <= doc.numPages; i++) {
+      const page = await doc.getPage(i)
+      const content = await page.getTextContent()
+      text += content.items.map((item) => item.str).join(' ') + '\n'
     }
+    await doc.destroy()
+    return text
+  } catch (e2) {
+    throw new Error(`PDF extraction failed: ${e2.message}`)
   }
 }
 

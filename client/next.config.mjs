@@ -7,7 +7,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const nextConfig = {
   reactStrictMode: true,
   // Packages that use Node.js built-ins must be kept out of the webpack bundle
-  serverExternalPackages: ['pdfkit', 'docx', 'pdf-parse', 'mammoth'],
+  serverExternalPackages: ['pdfkit', 'docx', 'pdf-parse', 'pdfjs-dist', 'mammoth'],
   turbopack: {
     root: __dirname,
     resolveAlias: {
