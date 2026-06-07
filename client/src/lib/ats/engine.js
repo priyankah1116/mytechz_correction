@@ -1,4 +1,3 @@
-'use server'
 /**
  * ATS Analysis Engine — pure JS, no external ML deps.
  * Works on plain extracted text from any resume format.
