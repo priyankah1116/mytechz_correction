@@ -90,7 +90,7 @@ export default function JobCard({
   const isCompact = variant === 'compact' || isMini
   const isFeatured = variant === 'featured' || job.is_featured
 
-  const padding = isMini ? 'p-3' : isCompact ? 'p-4' : 'p-5 sm:p-6'
+  const padding = isMini ? 'p-4' : isCompact ? 'p-5' : 'p-7 sm:p-8'
   const radius  = isMini ? 'rounded-xl' : 'rounded-2xl'
 
   return (
@@ -189,7 +189,7 @@ export default function JobCard({
       {/* Skills */}
       {!isMini && Array.isArray(job.skills) && job.skills.length > 0 && (
         <div className="relative z-[2] flex flex-wrap gap-1.5">
-          {job.skills.slice(0, isCompact ? 3 : 5).map((s) => (
+          {job.skills.slice(0, 3).map((s) => (
             <span key={s} className="text-[11px] px-2 py-0.5 rounded-full bg-slate-100/80 text-slate-600 border border-slate-200/60">{s}</span>
           ))}
           {job.skills.length > (isCompact ? 3 : 5) && (
@@ -223,7 +223,7 @@ export default function JobCard({
 
       {/* Actions */}
       {!isMini && (
-        <div className="relative z-[2] mt-1 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+        <div className="relative z-[2] mt-auto pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
           <div className="flex items-center gap-2">
             {variant === 'admin' ? (
               <>

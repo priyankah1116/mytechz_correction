@@ -32,8 +32,8 @@ export default function HeroSection() {
       onMouseMove={handleMouseMove}
       className="relative -mt-20 overflow-hidden bg-gradient-to-br from-slate-50 via-blue-50/40 to-indigo-50"
     >
-      {/* Animated grid */}
-      <div className="pointer-events-none absolute inset-0 hero-grid" />
+      {/* Animated grid removed */}
+      
 
       {/* Cursor spotlight */}
       <div
