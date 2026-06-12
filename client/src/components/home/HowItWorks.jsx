@@ -48,7 +48,8 @@ export default function HowItWorks() {
   return (
     <HomeSection tone="light">
       <div ref={ref}>
-        <SectionHeader eyebrow="How it works" title="Three steps to your next role" subtitle="No noise, no spam. Just verified jobs and a personal prep coach." />
+        <SectionHeader eyebrow="How it works" title="Three steps to your next role" 
+         />
 
         <div className="relative">
           {/* Connector line — desktop only */}

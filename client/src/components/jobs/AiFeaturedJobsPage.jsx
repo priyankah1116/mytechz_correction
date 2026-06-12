@@ -82,16 +82,16 @@ export default function AiFeaturedJobsPage({ initialJobs, initialFilters, initia
         </Link>
 
         <header className="mt-3 mb-8">
-          <span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-amber-400/15 text-amber-300 border border-amber-400/30">
+          {/*<span className="inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-md bg-amber-400/15 text-amber-300 border border-amber-400/30">
             <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 5.8L20 10l-5.6 2.2L12 18l-2.4-5.8L4 10l5.6-2.2L12 2z"/></svg>
             AI Featured
-          </span>
+          </span>*/}
           <h1 className="mt-2 text-3xl sm:text-5xl font-bold text-white leading-tight">
             Jobs that fit <span className="bg-gradient-to-r from-amber-300 via-orange-300 to-rose-300 bg-clip-text text-transparent">you</span>.
           </h1>
-          <p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl">
+          {/*<p className="mt-3 text-sm sm:text-base text-slate-300 max-w-2xl">
             Skip the noise. We rank jobs against your resume, skills and ambitions — not against keywords.
-          </p>
+          </p>*/}
         </header>
 
         {/* Chat-style prompt */}

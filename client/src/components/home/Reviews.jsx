@@ -63,7 +63,7 @@ export default function Reviews() {
         <header className="text-center max-w-2xl mx-auto mb-12">
           <span className="text-xs font-bold uppercase tracking-wider text-blue-700">What candidates say</span>
           <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-slate-900">Real outcomes, real stories</h2>
-          <p className="mt-3 text-base text-slate-600">Six recent placements shared what worked for them.</p>
+          {/*<p className="mt-3 text-base text-slate-600">Six recent placements shared what worked for them.</p>*/}
         </header>
 
         <div className="job-card-stagger grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">

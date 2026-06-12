@@ -18,9 +18,9 @@ export default function Footer() {
             <div className="absolute top-0 right-0 w-40 sm:w-64 h-40 sm:h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/3" />
             <div className="absolute bottom-0 left-0 w-32 sm:w-48 h-32 sm:h-48 bg-white/5 rounded-full translate-y-1/2 -translate-x-1/4" />
           </div>
-          <div className="relative flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
-            <div className="text-center md:text-left">
-              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1">
+           <div className="relative flex flex-col md:flex-row items-center justify-between gap-4 sm:gap-6">
+           <div className="text-center md:text-left">
+              <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-white mb-1 mt-5">
                 Stay ahead in your career
               </h3>
               <p className="text-blue-100 text-xs sm:text-sm">

@@ -38,7 +38,7 @@ export default function FaqAccordion() {
         <header className="text-center max-w-2xl mx-auto mb-10">
           <span className="text-xs font-bold uppercase tracking-wider text-blue-700">FAQ</span>
           <h2 className="mt-2 text-3xl sm:text-4xl font-bold text-slate-900">Common questions</h2>
-          <p className="mt-3 text-base text-slate-600">Tap any question to expand.</p>
+          {/*<p className="mt-3 text-base text-slate-600">Tap any question to expand.</p>*/}
         </header>
 
         <div className="max-w-3xl mx-auto space-y-2">

@@ -66,7 +66,7 @@ export default function Philosophy() {
       <SectionHeader
         eyebrow="Our philosophy"
         title={<>A job should find <em className="not-italic text-blue-700">you</em>.</>}
-        subtitle="Not the other way around. We built MyTechz to put genuine fit ahead of volume."
+        
       />
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5 mb-12">
